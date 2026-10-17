@@ -1,0 +1,92 @@
+{
+  "name": "Meithera",
+  "version": 1,
+  "color": {
+    "themes": [{ "id": "light", "name": "Light" }, { "id": "dark", "name": "Dark" }],
+    "tokens": [
+      { "name": "brand-emerald", "value": { "light": "#063f36", "dark": "#7fd1b5" }, "usage": "Primary brand colour. Primary buttons, nav, key headings, chart series 1. White text on it (light); emerald text on it (dark)." },
+      { "name": "brand-forest", "value": { "light": "#0d6656", "dark": "#4db89a" }, "usage": "Secondary green. Hover state of primary, links, progress fills, chart series 2." },
+      { "name": "brand-mint", "value": { "light": "#ddf3e8", "dark": "#143a31" }, "usage": "Soft accent surface. Selected states, info panels, badges, icon wells. Emerald text on it." },
+      { "name": "brand-gold", "value": { "light": "#c7a86d", "dark": "#c7a86d" }, "usage": "Highlight fill only — rules, chart series 3, small markers. Never text on light surfaces (fails contrast); use gold-ink for text." },
+      { "name": "gold-ink", "value": { "light": "#7a5e2a", "dark": "#d9be86" }, "usage": "Gold-toned text (eyebrows, 'Illustrative' labels) on surface-100 and surface-0." },
+      { "name": "surface-100", "value": { "light": "#f8faf8", "dark": "#0b1714" }, "usage": "Page background (warm off-white)." },
+      { "name": "surface-0", "value": { "light": "#ffffff", "dark": "#12221e" }, "usage": "Cards, inputs, popovers raised above surface-100." },
+      { "name": "surface-inverse", "value": { "light": "#063f36", "dark": "#e9f1ec" }, "usage": "Dark bands (footer, hero panels, presentation mode). Use on-inverse text." },
+      { "name": "ink", "value": { "light": "#172521", "dark": "#e9f1ec" }, "usage": "Primary text (charcoal) on surface-100, surface-0 and brand-mint." },
+      { "name": "ink-muted", "value": { "light": "#65736d", "dark": "#9db0a8" }, "usage": "Secondary text, captions, axis labels (slate grey). 4.6:1 on surface-100." },
+      { "name": "on-primary", "value": { "light": "#ffffff", "dark": "#063f36" }, "usage": "Text and icons on brand-emerald / brand-forest." },
+      { "name": "on-inverse", "value": { "light": "#f8faf8", "dark": "#063f36" }, "usage": "Text on surface-inverse." },
+      { "name": "border", "value": { "light": "#e2e8e4", "dark": "#24362f" }, "usage": "Hairlines, card borders, table rules." },
+      { "name": "border-strong", "value": { "light": "#8a9a93", "dark": "#5c7068" }, "usage": "Input and control borders (3:1 against surface-0)." },
+      { "name": "focus-ring", "value": { "light": "#0d6656", "dark": "#7fd1b5" }, "usage": "2px focus outline with 2px offset on every interactive element." },
+      { "name": "demo-bg", "value": { "light": "#fff4db", "dark": "#3a2c0e" }, "usage": "Background of the 'Demonstration Platform — No Real Investments' banner and illustrative-data notices." },
+      { "name": "demo-ink", "value": { "light": "#6b4700", "dark": "#f2c46b" }, "usage": "Text on demo-bg." },
+      { "name": "risk-bg", "value": { "light": "#fbeae7", "dark": "#3a1813" }, "usage": "Risk-warning panels (capital at risk)." },
+      { "name": "risk-ink", "value": { "light": "#8f2f22", "dark": "#f2a497" }, "usage": "Text and icons on risk-bg; destructive actions." },
+      { "name": "chart-4", "value": { "light": "#7fb8a4", "dark": "#2f7d69" }, "usage": "Chart series 4 (after emerald, forest, gold)." }
+    ]
+  },
+  "type": {
+    "fonts": [],
+    "families": {
+      "serif": "Newsreader, Georgia, serif",
+      "sans": "Manrope, Inter, system-ui, sans-serif",
+      "text": "\"DM Sans\", Inter, system-ui, sans-serif"
+    },
+    "groups": [
+      {
+        "name": "Display",
+        "family": "serif",
+        "styles": [
+          { "name": "display", "fontSize": "56px", "lineHeight": "60px", "fontWeight": 500, "letterSpacing": "-0.02em", "sample": "Property investment. Made more accessible.", "usage": "Landing hero headline only." },
+          { "name": "heading-1", "fontSize": "40px", "lineHeight": "48px", "fontWeight": 500, "letterSpacing": "-0.01em", "sample": "Supporting Ireland’s housing future", "usage": "Page titles on marketing pages." }
+        ]
+      },
+      {
+        "name": "Interface",
+        "family": "sans",
+        "styles": [
+          { "name": "heading-2", "fontSize": "28px", "lineHeight": "36px", "fontWeight": 700, "letterSpacing": "-0.01em", "sample": "Featured opportunities", "usage": "Section titles, dashboard page titles." },
+          { "name": "heading-3", "fontSize": "20px", "lineHeight": "28px", "fontWeight": 600, "sample": "Dublin 8 — two-bedroom residential", "usage": "Card titles." },
+          { "name": "figure", "fontSize": "32px", "lineHeight": "40px", "fontWeight": 700, "sample": "€290,000", "usage": "KPI numbers. Always tabular-nums." },
+          { "name": "label", "fontSize": "12px", "lineHeight": "16px", "fontWeight": 600, "letterSpacing": "0.08em", "sample": "INDICATIVE YIELD", "usage": "Eyebrows and stat labels, uppercase." }
+        ]
+      },
+      {
+        "name": "Text",
+        "family": "text",
+        "styles": [
+          { "name": "body", "fontSize": "16px", "lineHeight": "26px", "fontWeight": 400, "sample": "Returns are not guaranteed and investments may be illiquid.", "usage": "Paragraphs." },
+          { "name": "small", "fontSize": "14px", "lineHeight": "20px", "fontWeight": 400, "sample": "Illustrative demonstration property — not an investment offer.", "usage": "Table cells, helper text, disclosures." }
+        ]
+      }
+    ]
+  },
+  "spacing": {
+    "tokens": [
+      { "name": "space-1", "value": "4px", "usage": "Icon-to-label gap." },
+      { "name": "space-2", "value": "8px", "usage": "Tight stacks, badge padding." },
+      { "name": "space-3", "value": "12px", "usage": "Input padding, list gaps." },
+      { "name": "space-4", "value": "16px", "usage": "Mobile gutter, compact card padding." },
+      { "name": "space-6", "value": "24px", "usage": "Card padding, grid gaps." },
+      { "name": "space-8", "value": "32px", "usage": "Between card groups." },
+      { "name": "space-12", "value": "48px", "usage": "Section padding (mobile)." },
+      { "name": "space-24", "value": "96px", "usage": "Section padding (desktop)." }
+    ]
+  },
+  "radius": {
+    "tokens": [
+      { "name": "radius-sm", "value": "8px", "usage": "Badges, inputs, small buttons." },
+      { "name": "radius-md", "value": "12px", "usage": "Buttons, table containers." },
+      { "name": "radius-lg", "value": "16px", "usage": "Cards." },
+      { "name": "radius-xl", "value": "24px", "usage": "Hero panels, property images, the doorway motif." },
+      { "name": "radius-pill", "value": "9999px", "usage": "Status chips, progress bars." }
+    ]
+  },
+  "shadow": {
+    "tokens": [
+      { "name": "shadow-card", "value": { "light": "0 1px 2px rgba(6,63,54,0.06), 0 4px 16px rgba(6,63,54,0.06)", "dark": "0 1px 2px rgba(0,0,0,0.4)" }, "usage": "Resting cards." },
+      { "name": "shadow-raised", "value": { "light": "0 2px 4px rgba(6,63,54,0.08), 0 12px 32px rgba(6,63,54,0.10)", "dark": "0 8px 24px rgba(0,0,0,0.5)" }, "usage": "Hovered cards, dialogs." }
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+export type PropertyStatus = "open" | "coming-soon" | "funded";
+export type RiskLevel = "Moderate" | "Elevated" | "High";
+
+export interface Milestone {
+  label: string;
+  date: string; // indicative month, e.g. "2027-01"
+  done: boolean;
+}
+
+export interface Property {
+  id: string;
+  slug: string;
+  title: string;
+  location: string;
+  county: string;
+  type: string;
+  bedrooms: number;
+  description: string;
+  objectives: string[];
+  acquisition: number;
+  refurbishment: number;
+  legal: number;
+  contingency: number;
+  annualRent: number;
+  annualOpex: number;
+  /** Breakdown of annualOpex: maintenance, property management fee, insurance, other (LPT, compliance, service charges). */
+  opex: { maintenance: number; management: number; insurance: number; other: number };
+  /** Illustrative estimated post-refurbishment valuation (not a professional valuation). */
+  valuation: number;
+  /** Area centroid (WGS84) — deliberately NOT a building location. Stored as PostGIS geography(Point,4326). */
+  geo: { lat: number; lng: number; precision: "area-centroid" };
+  vacancyPct: number; // assumed, used in model
+  status: PropertyStatus;
+  fundedPct: number; // simulated funding progress 0-1
+  holdingYears: number;
+  distribution: "Quarterly" | "Monthly";
+  riskLevel: RiskLevel;
+  spvId: string;
+  ber: string; // target BER after works
+  palette: { door: string; brick: string; sky: string };
+  milestones: Milestone[];
+}
+
+export interface Investor {
+  id: string;
+  name: string;
+  email: string;
+  county: string;
+  classification: "Retail (non-sophisticated)" | "Sophisticated (self-certified)";
+  onboarding: { kyc: "Simulated — passed" | "Simulated — pending"; aml: "Simulated — clear" | "Simulated — review"; risk: "Completed" | "Pending"; appropriateness: "Placeholder — passed" | "Placeholder — pending" };
+  joined: string;
+}
+
+export interface Spv {
+  id: string;
+  name: string;
+  propertyId: string;
+  instrument: string;
+  jurisdiction: string;
+  status: string;
+}
+
+export interface SimInvestment {
+  id: string;
+  investorId: string;
+  propertyId: string;
+  amount: number; // gross amount entered
+  entryFee: number;
+  netInvested: number;
+  participation: number; // 0-1 share of SPV economic interest
+  createdAt: string;
+  ref: string; // simulated ledger reference
+  status: "Simulated" | "Seed";
+}
+
+export interface DistributionRun {
+  id: string;
+  propertyId: string;
+  period: string; // "2026-Q3"
+  rentalIncome: number;
+  expenses: number;
+  mgmtFee: number;
+  distributable: number;
+  createdAt: string;
+  allocations: { investorId: string; amount: number }[];
+}
+
+export type AuditType =
+  | "USER_REGISTRATION"
+  | "DEMO_LOGIN"
+  | "RISK_ACKNOWLEDGEMENT"
+  | "INVESTMENT_SIMULATION"
+  | "DOCUMENT_GENERATION"
+  | "ADMIN_CHANGE"
+  | "DISTRIBUTION_SIMULATION"
+  | "LEDGER_EVENT";
+
+export interface AuditEvent {
+  id: string;
+  type: AuditType;
+  actor: string;
+  detail: string;
+  at: string;
+  hash: string;
+  prevHash: string;
+}

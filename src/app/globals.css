@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/* Meithera design tokens — mirrors the Meithera design system (tokens.json) */
+:root {
+  --brand-emerald: #063f36;
+  --brand-forest: #0d6656;
+  --brand-mint: #ddf3e8;
+  --brand-gold: #c7a86d;
+  --gold-ink: #7a5e2a;
+  --surface-100: #f8faf8;
+  --surface-0: #ffffff;
+  --ink: #172521;
+  --ink-muted: #65736d;
+  --border: #e2e8e4;
+  --border-strong: #8a9a93;
+  --demo-bg: #fff4db;
+  --demo-ink: #6b4700;
+  --risk-bg: #fbeae7;
+  --risk-ink: #8f2f22;
+  --chart-4: #7fb8a4;
+}
+
+@theme inline {
+  --color-emerald: var(--brand-emerald);
+  --color-forest: var(--brand-forest);
+  --color-mint: var(--brand-mint);
+  --color-gold: var(--brand-gold);
+  --color-gold-ink: var(--gold-ink);
+  --color-surface: var(--surface-100);
+  --color-card: var(--surface-0);
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-demo: var(--demo-bg);
+  --color-demo-ink: var(--demo-ink);
+  --color-risk: var(--risk-bg);
+  --color-risk-ink: var(--risk-ink);
+  --color-chart4: var(--chart-4);
+  --font-sans: var(--font-manrope), Inter, system-ui, sans-serif;
+  --font-text: var(--font-dm-sans), Inter, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --shadow-card: 0 1px 2px rgba(6, 63, 54, 0.06), 0 4px 16px rgba(6, 63, 54, 0.06);
+  --shadow-raised: 0 2px 4px rgba(6, 63, 54, 0.08), 0 12px 32px rgba(6, 63, 54, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--surface-100);
+  color: var(--ink);
+  font-family: var(--font-text), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, label, button, th {
+  font-family: var(--font-manrope), Inter, system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-forest);
+  outline-offset: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.watermark {
+  position: relative;
+}
+.watermark::after {
+  content: "DEMONSTRATION — NOT A REAL DOCUMENT";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-24deg);
+  font-family: var(--font-manrope), sans-serif;
+  font-weight: 800;
+  font-size: clamp(18px, 4vw, 40px);
+  letter-spacing: 0.08em;
+  color: rgba(199, 168, 109, 0.22);
+  pointer-events: none;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  header, footer, nav, .no-print { display: none !important; }
+}
