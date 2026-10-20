@@ -78,6 +78,16 @@ export const EMPTY_CHAIN: ChainState = { blocks: [], txs: [] };
  */
 export function buildSeed() {
   let chain = commit(EMPTY_CHAIN, [{ type: "GENESIS", memo: "Raya Chain demonstration register opened for Meithera property companies (illustrative)" }], "2026-06-01T09:00:00Z").state;
+  // Home Digital Passport: vacancy and pre-works BER survey attested for every home.
+  const passportAt = "2026-06-01T09:30:00Z";
+  chain = commit(
+    chain,
+    seedProperties.flatMap((p): TxInput[] => [
+      { type: "ATTEST", spvId: p.spvId, memo: `${p.location} · passport · long-term vacant since ${p.vacantSince} (illustrative)`, reason: "VACANCY", at: passportAt },
+      { type: "ATTEST", spvId: p.spvId, memo: `${p.location} · passport · pre-works BER survey: ${p.berBefore} (illustrative)`, reason: "BER_BEFORE", at: passportAt },
+    ]),
+    passportAt,
+  ).state;
   const investments = baseInvestments.map((i) => ({ ...i }));
   const distributions: DistributionRun[] = [];
 
@@ -129,6 +139,14 @@ export function buildSeed() {
       },
     });
   }
+
+  const acquiredAt = "2026-09-30T09:00:00Z";
+  events.push({
+    at: acquiredAt,
+    run: () => {
+      chain = commit(chain, [{ type: "ATTEST", spvId: lim.spvId, memo: `${lim.location} · passport · illustrative acquisition completed`, reason: "MILESTONE", at: acquiredAt }], acquiredAt).state;
+    },
+  });
 
   events.sort((a, b) => a.at.localeCompare(b.at)).forEach((e) => e.run());
   return { chain, investments, distributions };

@@ -41,6 +41,8 @@ export const seedProperties: Property[] = [
     riskLevel: "Moderate",
     spvId: "spv-d8",
     ber: "Target B1",
+    berBefore: "G",
+    vacantSince: "2019",
     palette: { door: "#0d6656", brick: "#a65a43", sky: "#ddf3e8" },
     milestones: [
       { label: "Illustrative acquisition", date: "2027-01", done: false },
@@ -85,6 +87,8 @@ export const seedProperties: Property[] = [
     riskLevel: "Elevated",
     spvId: "spv-cork",
     ber: "Target B2",
+    berBefore: "F",
+    vacantSince: "2021",
     palette: { door: "#c7a86d", brick: "#b8806a", sky: "#e9f1ec" },
     milestones: [
       { label: "Illustrative acquisition", date: "2027-03", done: false },
@@ -129,6 +133,8 @@ export const seedProperties: Property[] = [
     riskLevel: "Moderate",
     spvId: "spv-galway",
     ber: "Target B2",
+    berBefore: "D1",
+    vacantSince: "2023",
     palette: { door: "#063f36", brick: "#d9d2c3", sky: "#f1ece0" },
     milestones: [
       { label: "Opportunity review", date: "2027-04", done: false },
@@ -173,6 +179,8 @@ export const seedProperties: Property[] = [
     riskLevel: "High",
     spvId: "spv-limerick",
     ber: "Target B2",
+    berBefore: "G",
+    vacantSince: "2016",
     palette: { door: "#8f2f22", brick: "#9a5b45", sky: "#e9f1ec" },
     milestones: [
       { label: "Illustrative acquisition", date: "2026-09", done: true },

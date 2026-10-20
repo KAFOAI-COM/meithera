@@ -98,4 +98,5 @@ export const TX_LABEL: Record<ChainTxType, string> = {
   CORRECTION: "Court-ordered correction",
   ANCHOR: "Anchor",
   REJECTED: "Rejected transfer",
+  ATTEST: "Passport attestation",
 };
