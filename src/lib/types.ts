@@ -79,7 +79,7 @@ export interface SimInvestment {
   participation: number; // 0-1 share of SPV economic interest
   createdAt: string;
   ref: string; // simulated ledger reference
-  status: "Simulated" | "Seed";
+  status: "Simulated" | "Seed" | "Withdrawn";
   txId?: string; // Raya Chain ISSUE tx recording this holding
 }
 
@@ -104,7 +104,15 @@ export type AuditType =
   | "DOCUMENT_GENERATION"
   | "ADMIN_CHANGE"
   | "DISTRIBUTION_SIMULATION"
-  | "LEDGER_EVENT";
+  | "LEDGER_EVENT"
+  | "ONBOARDING_SIMULATION"
+  | "KNOWLEDGE_TEST"
+  | "EXTRA_WARNING"
+  | "REFLECTION_WITHDRAWAL"
+  | "EXIT_VOTE"
+  | "BULLETIN_POST"
+  | "AUTOINVEST_RULE"
+  | "STAIRCASING";
 
 export interface AuditEvent {
   id: string;
@@ -116,7 +124,7 @@ export interface AuditEvent {
   prevHash: string;
 }
 
-export type ChainTxType = "GENESIS" | "ISSUE" | "TRANSFER" | "DISTRIBUTION" | "REPAYMENT" | "FREEZE" | "CORRECTION" | "ANCHOR" | "REJECTED" | "ATTEST";
+export type ChainTxType = "GENESIS" | "ISSUE" | "TRANSFER" | "DISTRIBUTION" | "REPAYMENT" | "FREEZE" | "CORRECTION" | "ANCHOR" | "REJECTED" | "ATTEST" | "WITHDRAWAL";
 
 export interface ChainTx {
   txId: string;
@@ -140,4 +148,31 @@ export interface ChainBlock {
   hash: string;
   txIds: string[];
   anchors: { chain: string; ref: string }[];
+}
+
+export type VoteChoice = "for" | "against" | "abstain";
+
+/** ECSPR-style bulletin board post: an expression of interest to sell, never a matched order. */
+export interface BulletinPost {
+  id: string;
+  investorId: string;
+  propertyId: string;
+  units: number;
+  askPerUnit: number;
+  at: string;
+}
+
+export interface AutoInvestRules {
+  enabled: boolean;
+  offerTypes: OfferType[];
+  maxPerOffer: number;
+  monthlyBudget: number;
+}
+
+export interface StaircaseStep {
+  year: number;
+  tenantPct: number;
+  payment: number;
+  txId: string;
+  at: string;
 }

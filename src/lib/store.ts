@@ -2,12 +2,12 @@
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { AuditEvent, AuditType, ChainTx, DistributionRun, Investor, Property, SimInvestment } from "./types";
+import type { AuditEvent, AuditType, AutoInvestRules, BulletinPost, ChainTx, DistributionRun, Investor, Property, SimInvestment, StaircaseStep, VoteChoice } from "./types";
 import { seedProperties } from "./data/properties";
-import { chainAudit, issueTx, seedAudit, seedChain, seedDistributions, seedInvestments, seedInvestors, verifiedWallets } from "./data/seed";
+import { chainAudit, DEMO_INVESTOR_ID, issueTx, seedAudit, seedChain, seedDistributions, seedInvestments, seedInvestors, verifiedWallets } from "./data/seed";
 import { commit, type ChainState, type TxInput } from "./chain/raya";
 import { pseudonym } from "./ledger";
-import { fnv, uid } from "./utils";
+import { eur, fnv, uid } from "./utils";
 import { FEES, illustrateLoan, offerSize } from "./finance";
 
 /**
@@ -24,6 +24,11 @@ interface DemoState {
   distributions: DistributionRun[];
   audit: AuditEvent[];
   chain: ChainState;
+  /** Exit-window votes, keyed `${investorId}:${propertyId}`. */
+  votes: Record<string, VoteChoice>;
+  bulletin: BulletinPost[];
+  autoInvest: AutoInvestRules;
+  staircase: StaircaseStep[];
   log: (type: AuditType, actor: string, detail: string) => void;
   commitTxs: (inputs: TxInput[]) => ChainTx[];
   simulateInvestment: (investorId: string, propertyId: string, amount: number) => SimInvestment;
@@ -36,8 +41,21 @@ interface DemoState {
   correctHolding: (spvId: string, fromInvestorId: string, toInvestorId: string, units: number, reason: string) => ChainTx;
   /** Attempt a transfer; rejected (and recorded as REJECTED) unless the recipient wallet is verified. */
   tryTransfer: (spvId: string, fromInvestorId: string, toWallet: string, units: number) => ChainTx;
+  /** Withdraw within the 4-day reflection period: records a WITHDRAWAL tx and releases the units. */
+  withdrawInvestment: (simId: string) => ChainTx | null;
+  castVote: (investorId: string, propertyId: string, choice: VoteChoice) => void;
+  postToBulletin: (investorId: string, propertyId: string, units: number, askPerUnit: number) => BulletinPost;
+  setAutoInvest: (rules: AutoInvestRules) => void;
+  /** Stage 3: tenant buys a further share of their home's company; recorded on Raya Chain. */
+  recordStaircaseStep: (tenantId: string, propertyId: string, year: number, tenantPct: number, payment: number) => StaircaseStep;
   reset: () => void;
 }
+
+export const REFLECTION_DAYS = 4;
+export const inReflection = (sim: SimInvestment, now = Date.now()) =>
+  sim.status === "Simulated" && now - new Date(sim.createdAt).getTime() < REFLECTION_DAYS * 86_400_000;
+
+const DEFAULT_AUTOINVEST: AutoInvestRules = { enabled: false, offerTypes: ["loan", "rent-share"], maxPerOffer: 500, monthlyBudget: 1000 };
 
 const initial = () => ({
   properties: structuredClone(seedProperties),
@@ -46,6 +64,10 @@ const initial = () => ({
   distributions: structuredClone(seedDistributions),
   audit: structuredClone(seedAudit),
   chain: structuredClone(seedChain),
+  votes: {} as Record<string, VoteChoice>,
+  bulletin: [] as BulletinPost[],
+  autoInvest: { ...DEFAULT_AUTOINVEST },
+  staircase: [] as StaircaseStep[],
 });
 
 export const useDemo = create<DemoState>()(
@@ -172,13 +194,55 @@ export const useDemo = create<DemoState>()(
         get().log("LEDGER_EVENT", fromInvestorId, `Raya Chain ${tx.type} ${tx.txId.slice(0, 12)}… (${units} units to ${toWallet})`);
         return tx;
       },
+      withdrawInvestment: (simId) => {
+        const sim = get().investments.find((i) => i.id === simId);
+        if (!sim || !inReflection(sim)) return null;
+        const p = get().properties.find((x) => x.id === sim.propertyId)!;
+        const units = Math.round(sim.netInvested);
+        const [tx] = get().commitTxs([
+          { type: "WITHDRAWAL", spvId: p.spvId, from: pseudonym(sim.investorId), units, amount: sim.amount, reason: "REFLECTION_PERIOD", memo: `${p.location} · withdrawn within the ${REFLECTION_DAYS}-day reflection period · ${sim.id}` },
+        ]);
+        set({
+          investments: get().investments.map((i) => (i.id === simId ? { ...i, status: "Withdrawn" as const } : i)),
+          properties: get().properties.map((x) => (x.id === p.id ? { ...x, fundedPct: Math.max(0, x.fundedPct - sim.netInvested / offerSize(x)) } : x)),
+        });
+        get().log("REFLECTION_WITHDRAWAL", sim.investorId, `Withdrew simulated €${sim.amount.toLocaleString("en-IE")} from ${p.location} within the reflection period — Raya Chain ${tx.txId.slice(0, 12)}…`);
+        return tx;
+      },
+      castVote: (investorId, propertyId, choice) => {
+        set({ votes: { ...get().votes, [`${investorId}:${propertyId}`]: choice } });
+        const p = get().properties.find((x) => x.id === propertyId);
+        get().log("EXIT_VOTE", investorId, `Exit-window vote "${choice}" on ${p?.location ?? propertyId} (simulated)`);
+      },
+      postToBulletin: (investorId, propertyId, units, askPerUnit) => {
+        const post: BulletinPost = { id: uid("BB"), investorId, propertyId, units, askPerUnit, at: new Date().toISOString() };
+        set({ bulletin: [post, ...get().bulletin] });
+        const p = get().properties.find((x) => x.id === propertyId);
+        get().log("BULLETIN_POST", investorId, `Interest to sell ${units} units of ${p?.location ?? propertyId} at ${eur(askPerUnit, 2)}/unit posted to the bulletin board — no order matching`);
+        return post;
+      },
+      setAutoInvest: (rules) => {
+        set({ autoInvest: rules });
+        get().log("AUTOINVEST_RULE", DEMO_INVESTOR_ID, `AutoInvest ${rules.enabled ? "on" : "off"}: ${rules.offerTypes.join(" + ")}, max €${rules.maxPerOffer}/offer, €${rules.monthlyBudget}/month (simulated, nothing executes)`);
+      },
+      recordStaircaseStep: (tenantId, propertyId, year, tenantPct, payment) => {
+        const p = get().properties.find((x) => x.id === propertyId)!;
+        const units = Math.round(payment);
+        const [tx] = get().commitTxs([
+          { type: "TRANSFER", spvId: p.spvId, from: "ID-INVESTOR-POOL", to: pseudonym(tenantId), units, amount: payment, reason: "STAIRCASE", memo: `${p.location} · staircasing year ${year}: tenant share to ${Math.round(tenantPct * 100)}% · investors bought out (simulated)` },
+        ]);
+        const step: StaircaseStep = { year, tenantPct, payment, txId: tx.txId, at: tx.at };
+        set({ staircase: [...get().staircase.filter((x) => x.year !== year), step].sort((a, b) => a.year - b.year) });
+        get().log("STAIRCASING", tenantId, `Staircasing year ${year} recorded: tenant share ${Math.round(tenantPct * 100)}% — Raya Chain ${tx.txId.slice(0, 12)}…`);
+        return step;
+      },
       reset: () => set(initial()),
     }),
     {
       name: "meithera-demo-v2",
       storage: createJSONStorage(() => sessionStorage),
       skipHydration: true,
-      partialize: (s) => ({ properties: s.properties, investors: s.investors, investments: s.investments, distributions: s.distributions, audit: s.audit, chain: s.chain }),
+      partialize: (s) => ({ properties: s.properties, investors: s.investors, investments: s.investments, distributions: s.distributions, audit: s.audit, chain: s.chain, votes: s.votes, bulletin: s.bulletin, autoInvest: s.autoInvest, staircase: s.staircase }),
     },
   ),
 );

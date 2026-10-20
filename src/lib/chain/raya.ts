@@ -80,6 +80,7 @@ export function capTable(txs: ChainTx[], spvId: string) {
       units.set(t.from, (units.get(t.from) ?? 0) - (t.units ?? 0));
       units.set(t.to, (units.get(t.to) ?? 0) + (t.units ?? 0));
     }
+    if (t.type === "WITHDRAWAL" && t.from) units.set(t.from, (units.get(t.from) ?? 0) - (t.units ?? 0));
     if (t.type === "FREEZE" && t.from) frozen.add(t.from);
   }
   return Array.from(units.entries())
@@ -99,4 +100,5 @@ export const TX_LABEL: Record<ChainTxType, string> = {
   ANCHOR: "Anchor",
   REJECTED: "Rejected transfer",
   ATTEST: "Passport attestation",
+  WITHDRAWAL: "Reflection withdrawal",
 };
