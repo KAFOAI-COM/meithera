@@ -3,9 +3,9 @@ import { Logo } from "./logo";
 import { RISK_WARNING } from "./notices";
 
 const cols = [
-  { title: "Platform", links: [["/properties", "Properties"], ["/how-it-works", "How it works"], ["/impact", "Impact"], ["/faq", "FAQ"]] },
-  { title: "Regulatory", links: [["/compliance", "Regulatory readiness"], ["/regulatory-demo", "Regulatory demonstration"], ["/legal/risk-disclosure", "Risk disclosure"]] },
-  { title: "Company", links: [["/about", "About Stake Ireland"], ["/legal/privacy", "Privacy"], ["/legal/terms", "Terms of use"]] },
+  { title: "Platform", links: [["/properties", "Homes"], ["/how-it-works", "How it works"], ["/roadmap", "Roadmap"], ["/chain", "Raya Chain explorer"], ["/agents", "Agents (simulated)"], ["/impact", "Impact"], ["/faq", "FAQ"]] },
+  { title: "Regulatory", links: [["/compliance", "Regulatory readiness"], ["/regulatory-demo", "Regulatory demonstration"], ["/supervisor", "Supervisor view"], ["/legal/risk-disclosure", "Risk disclosure"]] },
+  { title: "Company", links: [["/about", "About Raya Software"], ["/legal/privacy", "Privacy"], ["/legal/terms", "Terms of use"], ["/login", "Log in (personas)"]] },
 ];
 
 export function Footer() {
@@ -16,7 +16,7 @@ export function Footer() {
           <div>
             <Logo inverse />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/75">
-              Own a share. Build Ireland’s future. A proposed platform from Stake Ireland for accessible participation in the refurbishment of vacant Irish homes.
+              Own a share. Build Ireland’s future. Blockchain-based fractional ownership of property companies — a proposal from Raya Software Limited to fund the refurbishment of vacant Irish homes in small amounts.
             </p>
           </div>
           {cols.map((c) => (
@@ -33,9 +33,9 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-12 space-y-3 border-t border-white/15 pt-6 text-xs leading-relaxed text-white/70">
-          <p><strong className="text-white">Demonstration platform.</strong> Meithera is a demonstration MVP. No real investments are available, no money can be transferred and no securities or tokens are issued. All properties, investors and figures are fictional and illustrative.</p>
-          <p>Meithera / Stake Ireland is not authorised or regulated by the Central Bank of Ireland. The Central Bank has not approved or endorsed this platform. {RISK_WARNING}</p>
-          <p>© 2026 Stake Ireland (proposed). Demonstration build.</p>
+          <p><strong className="text-white">Demonstration platform.</strong> Meithera is a demonstration MVP. No real investments are available, no money can be transferred and no securities or tokens are issued. All homes, investors, figures and ledger records are fictional and illustrative. Raya Chain is simulated.</p>
+          <p>Meithera / Raya Software Limited is not authorised or regulated by the Central Bank of Ireland. The Central Bank has not approved or endorsed this platform; the Innovation Hub provides guidance, not approval. {RISK_WARNING}</p>
+          <p>© 2026 Raya Software Limited (incorporated in Ireland). Demonstration build.</p>
         </div>
       </div>
     </footer>
