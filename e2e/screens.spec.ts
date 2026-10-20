@@ -1,10 +1,25 @@
 import { expect, test } from "@playwright/test";
 
 /** Full-page screenshots for visual review, plus basic health checks: no console errors, no horizontal overflow. */
-const ROUTES = ["/", "/properties"];
+const ROUTES = [
+  "/",
+  "/properties",
+  "/properties/dublin-8-two-bed",
+  "/properties/limerick-city-refurbishment",
+  "/how-it-works",
+  "/about",
+  "/impact",
+  "/faq",
+  "/compliance",
+  "/legal/risk-disclosure",
+  "/legal/privacy",
+  "/legal/terms",
+  "/login",
+  "/register",
+];
 
 /** Routes linked from the shell but built in later sessions. Their prefetch 404s are tolerated until then. */
-const PENDING = ["/properties/", "/how-it-works", "/chain", "/roadmap", "/compliance", "/about", "/impact", "/faq", "/regulatory-demo", "/legal/", "/login", "/register"];
+const PENDING = ["/chain", "/roadmap", "/regulatory-demo"];
 
 for (const route of ROUTES) {
   test(`screens ${route}`, async ({ page }, info) => {

@@ -44,6 +44,8 @@ export interface Property {
   riskLevel: RiskLevel;
   spvId: string;
   ber: string; // target BER after works
+  berBefore: string; // illustrative pre-works BER survey result
+  vacantSince: string; // illustrative year the home became vacant
   palette: { door: string; brick: string; sky: string };
   milestones: Milestone[];
 }
@@ -114,7 +116,7 @@ export interface AuditEvent {
   prevHash: string;
 }
 
-export type ChainTxType = "GENESIS" | "ISSUE" | "TRANSFER" | "DISTRIBUTION" | "REPAYMENT" | "FREEZE" | "CORRECTION" | "ANCHOR" | "REJECTED";
+export type ChainTxType = "GENESIS" | "ISSUE" | "TRANSFER" | "DISTRIBUTION" | "REPAYMENT" | "FREEZE" | "CORRECTION" | "ANCHOR" | "REJECTED" | "ATTEST";
 
 export interface ChainTx {
   txId: string;
