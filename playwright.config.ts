@@ -6,7 +6,7 @@ export default defineConfig({
   testDir: "e2e",
   timeout: 60_000,
   // One retry: a rare (~1.5%), production-only, recoverable React #418 hydration warning is under investigation (see CLAUDE.md).
-  retries: 1,
+  retries: process.env.NO_RETRY ? 0 : 1,
   use: { baseURL: `http://localhost:${PORT}` },
   webServer: {
     command: `pnpm start -p ${PORT}`,

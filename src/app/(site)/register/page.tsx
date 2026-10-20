@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { StageBadge } from "@/components/site/stage-badge";
 import Link from "next/link";
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import { demoRegister } from "@/app/actions";
@@ -17,7 +18,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const { error } = await searchParams;
   return (
     <AuthShell quote="A demo profile takes ten seconds. We ask for a first name and a county — and nothing else.">
-      <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-ink">Try the demo</p>
+      <div className="flex flex-wrap items-center gap-3"><p className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-ink">Try the demo</p><StageBadge stage={0} detail /></div>
       <h1 className="mt-3 font-serif text-4xl tracking-tight text-ink sm:text-5xl">Create a demo profile</h1>
       <p className="mt-3 max-w-lg text-muted">You’ll join as a fictional investor. Nothing is sent anywhere or stored on a server; your first name only labels this browser session.</p>
       {error ? (

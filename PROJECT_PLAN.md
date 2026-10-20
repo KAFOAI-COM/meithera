@@ -1,5 +1,7 @@
 # Meithera MVP — Project Plan
 
+> **Status, 20 Oct 2026: meeting build complete — tag `v0.1-cbi`.** All seven sessions of `docs/briefs/04-mega-plan.md` are on `main` (Sessions 2–5 via PRs #2–#4 and #6; Session 6's data layer and docs ported from the parallel build; Session 7 QA). Checks: `pnpm check` (tsc + lint + 23 unit tests), `pnpm build`, 84 Playwright tests (35 routes × 1280/390 + journeys). Remaining steps are manual: deploy, rehearse, record a fallback video — see `CLAUDE.md`.
+
 **Goal:** an interactive, clearly-labelled demonstration of a proposed Irish fractional property investment platform, ready for the Central Bank of Ireland Innovation Hub meeting (late Oct / early Nov 2026).
 
 **Not in scope:** real investments, payments, token issuance, live KYC/AML, real distributions, any claim of authorisation.
