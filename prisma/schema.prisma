@@ -1,0 +1,303 @@
+// Meithera — optional persistence layer. The app runs with no database (LocalRepository);
+// set DATABASE_URL to use PostgreSQL + PostGIS through PrismaRepository.
+//
+// Spatial columns are PostGIS geography types, which Prisma does not model natively, so they are
+// declared Unsupported(...) and written/read with raw SQL (see prisma/seed.ts and sql/spatial-examples.sql).
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis]
+}
+
+enum OfferType {
+  LOAN
+  RENT_SHARE
+}
+
+enum PropertyStatus {
+  OPEN
+  COMING_SOON
+  FUNDED
+}
+
+enum Classification {
+  RETAIL
+  SOPHISTICATED
+}
+
+enum ChainTxType {
+  ISSUE
+  TRANSFER
+  DISTRIBUTION
+  REPAYMENT
+  FREEZE
+  CORRECTION
+  ANCHOR
+  ATTEST
+}
+
+enum ChainTxStatus {
+  CONFIRMED
+  REJECTED
+}
+
+/// Irish county with its boundary (MultiPolygon, WGS84). Used for ST_Contains / ST_DWithin queries.
+model County {
+  id         String     @id @default(cuid())
+  name       String     @unique
+  /// geography(MultiPolygon,4326) — loaded from an open boundary dataset; not included in the repo
+  boundary   Unsupported("geography(MultiPolygon,4326)")?
+  properties Property[]
+}
+
+/// An illustrative home. `location` is an AREA CENTROID (never a building location).
+model Property {
+  id            String         @id
+  slug          String         @unique
+  title         String
+  location      String
+  countyId      String?
+  county        County?        @relation(fields: [countyId], references: [id])
+  type          String
+  bedrooms      Int
+  description   String
+  objectives    String[]
+  offerType     OfferType
+  acquisition   Int
+  refurbishment Int
+  legal         Int
+  contingency   Int
+  annualRent    Int
+  opexMaintenance Int
+  opexManagement  Int
+  opexInsurance   Int
+  opexOther       Int
+  valuation     Int
+  vacancyPct    Decimal        @db.Decimal(5, 4)
+  status        PropertyStatus
+  fundedPct     Decimal        @db.Decimal(5, 4)
+  holdingYears  Decimal        @db.Decimal(4, 1)
+  riskLevel     String
+  ber           String
+  berBefore     String
+  vacantSince   String
+  /// geography(Point,4326) area centroid, set with ST_SetSRID(ST_MakePoint(lng, lat), 4326)
+  geo           Unsupported("geography(Point,4326)")?
+  spv           Spv?
+  loan          Loan?
+  investments   Investment[]
+  distributions DistributionRun[]
+  passport      PassportEntry[]
+  chainTxs      ChainTx[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model PassportEntry {
+  id         String   @id
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  kind       String
+  label      String
+  date       String
+  detail     String
+  done       Boolean  @default(false)
+  txId       String?  @unique
+  tx         ChainTx? @relation(fields: [txId], references: [id])
+}
+
+/// Stage 1 loan terms. Lenders pay no fee; the borrower pays the arrangement fee.
+model Loan {
+  id               String   @id @default(cuid())
+  propertyId       String   @unique
+  property         Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  amount           Int
+  ratePct          Decimal  @db.Decimal(5, 2)
+  termMonths       Int
+  security         String
+  arrangementFeePct Decimal @db.Decimal(5, 4)
+}
+
+/// One company per home (Stage 2) or the loan vehicle (Stage 1).
+model Spv {
+  id          String   @id
+  name        String
+  propertyId  String   @unique
+  property    Property @relation(fields: [propertyId], references: [id])
+  instrument  String
+  jurisdiction String
+  status      String
+  entitlements EntitlementRecord[]
+}
+
+/// Fictional investor. Personal data is minimal and would be held by the authorised partner in production.
+model Investor {
+  id              String          @id
+  name            String
+  email           String          @unique
+  county          String
+  classification  Classification
+  kyc             String
+  aml             String
+  risk            String
+  appropriateness String
+  knowledgeScore  Int?
+  knowledgeTotal  Int?
+  knowledgePassed Boolean?
+  statedNetWorth  Int?
+  joined          DateTime
+  investments     Investment[]
+  allocations     Allocation[]
+  entitlements    EntitlementRecord[]
+  complaints      Complaint[]
+}
+
+model Investment {
+  id            String     @id
+  investorId    String
+  investor      Investor   @relation(fields: [investorId], references: [id])
+  propertyId    String
+  property      Property   @relation(fields: [propertyId], references: [id])
+  offerType     OfferType
+  amount        Decimal    @db.Decimal(12, 2)
+  entryFee      Decimal    @db.Decimal(12, 2)
+  netInvested   Decimal    @db.Decimal(12, 2)
+  participation Decimal    @db.Decimal(12, 10)
+  status        String
+  warningShown  Boolean    @default(false)
+  ref           String
+  txId          String?    @unique
+  tx            ChainTx?   @relation(fields: [txId], references: [id])
+  createdAt     DateTime
+  entitlement   EntitlementRecord?
+}
+
+model DistributionRun {
+  id            String       @id
+  propertyId    String
+  property      Property     @relation(fields: [propertyId], references: [id])
+  period        String
+  kind          String
+  rentalIncome  Decimal      @db.Decimal(12, 2)
+  expenses      Decimal      @db.Decimal(12, 2)
+  adminFee      Decimal      @db.Decimal(12, 2)
+  distributable Decimal      @db.Decimal(12, 2)
+  createdAt     DateTime     @default(now())
+  allocations   Allocation[]
+}
+
+model Allocation {
+  id         String          @id @default(cuid())
+  runId      String
+  run        DistributionRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  investorId String
+  investor   Investor        @relation(fields: [investorId], references: [id])
+  amount     Decimal         @db.Decimal(12, 2)
+  txId       String?         @unique
+  tx         ChainTx?        @relation(fields: [txId], references: [id])
+}
+
+/// Off-chain register entry (authoritative today). Mirrors an Investment; reconciled against the chain.
+model EntitlementRecord {
+  recordId          String     @id
+  investorId        String
+  investor          Investor   @relation(fields: [investorId], references: [id])
+  investorRef       String     // pseudonym — the only identifier that appears on-chain
+  spvId             String
+  spv               Spv        @relation(fields: [spvId], references: [id])
+  investmentId      String     @unique
+  investment        Investment @relation(fields: [investmentId], references: [id])
+  units             Int
+  issuedAt          DateTime
+  txRef             String
+  transferRestricted Boolean   @default(true)
+  lockUpUntil       DateTime
+}
+
+/// Raya Chain block (simulated / mirrored).
+model ChainBlock {
+  height     Int       @id
+  timestamp  DateTime
+  prevHash   String
+  hash       String    @unique
+  merkleRoot String
+  txs        ChainTx[]
+  anchors    ChainAnchor[]
+}
+
+/// Raya Chain transaction. Holder fields are pseudonyms; no personal data.
+model ChainTx {
+  id          String        @id
+  type        ChainTxType
+  status      ChainTxStatus
+  at          DateTime
+  blockHeight Int?
+  block       ChainBlock?   @relation(fields: [blockHeight], references: [height])
+  propertyId  String?
+  property    Property?     @relation(fields: [propertyId], references: [id])
+  spvId       String?
+  fromRef     String?
+  toRef       String?
+  units       Int?
+  amountEur   Decimal?      @db.Decimal(12, 2)
+  memo        String
+  reasonCode  String?
+  ref         String?
+  rule        String
+  hash        String        @unique
+  investment  Investment?
+  allocation  Allocation?
+  passport    PassportEntry?
+
+  @@index([toRef])
+  @@index([fromRef])
+  @@index([propertyId])
+}
+
+model ChainAnchor {
+  id          String     @id
+  blockHeight Int
+  block       ChainBlock @relation(fields: [blockHeight], references: [height])
+  merkleRoot  String
+  targetChain String
+  at          DateTime
+  receipt     String
+  ackTxId     String?
+}
+
+model Wallet {
+  id           String  @id // pseudonym
+  label        String
+  kind         String
+  verified     Boolean @default(false)
+  frozen       Boolean @default(false)
+  frozenReason String?
+}
+
+/// Append-only, hash-chained audit log.
+model AuditEvent {
+  id       String   @id
+  type     String
+  actor    String
+  detail   String
+  at       DateTime
+  hash     String
+  prevHash String
+
+  @@index([type])
+}
+
+model Complaint {
+  id         String   @id
+  investorId String
+  investor   Investor @relation(fields: [investorId], references: [id])
+  subject    String
+  status     String
+  openedAt   DateTime
+}
