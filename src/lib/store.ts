@@ -35,6 +35,7 @@ interface DemoState {
   updateProperty: (id: string, patch: Partial<Property>) => void;
   addProperty: (p: Property) => void;
   addInvestor: (i: Investor) => void;
+  updateInvestor: (id: string, patch: Partial<Investor>) => void;
   /** Monthly rent distribution (Stage 2) or loan interest payment (Stage 1). */
   runDistribution: (propertyId: string, period: string) => DistributionRun | null;
   freezeHolding: (spvId: string, investorId: string, reason: string) => ChainTx;
@@ -122,6 +123,7 @@ export const useDemo = create<DemoState>()(
       },
       addProperty: (p) => set({ properties: [...get().properties, p] }),
       addInvestor: (i) => set({ investors: [...get().investors, i] }),
+      updateInvestor: (id, patch) => set({ investors: get().investors.map((i) => (i.id === id ? { ...i, ...patch } : i)) }),
       runDistribution: (propertyId, period) => {
         const p = get().properties.find((x) => x.id === propertyId);
         if (!p) return null;

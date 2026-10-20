@@ -61,5 +61,16 @@ test.describe("investor journey", () => {
     await expect(page.locator(`a[href="/chain?tx=${txId}"]`)).toBeVisible();
     await page.goto("/dashboard/portfolio");
     await expect(page.getByRole("button", { name: "Withdraw" })).toBeVisible();
+
+    // The supervisor sees the same tx in the live feed (same browser session, different persona).
+    await page.goto("/login?next=/supervisor");
+    await page.getByRole("button", { name: /Continue as Supervisor/ }).click();
+    await page.waitForURL("**/supervisor");
+    await expect(page.getByText("Illustrative supervisory view — not a Central Bank system.")).toBeVisible();
+    await expect(page.locator(`a[href="/chain?tx=${txId}"]`)).toBeVisible();
+
+    // And the explorer opens it in the detail drawer.
+    await page.goto(`/chain?tx=${txId}`);
+    await expect(page.getByRole("dialog", { name: "Transaction detail" })).toContainText(txId);
   });
 });
