@@ -8,6 +8,9 @@ import { FeaturedProperties } from "@/components/site/live-properties";
 import { FaqList, faqs } from "@/components/site/faq-list";
 import { RegisterInterest } from "@/components/site/register-interest";
 import { RiskNotice, SectionHeading } from "@/components/site/notices";
+import { LoanExample, RentShareExample } from "@/components/site/example-walk";
+import { StageBadge } from "@/components/site/stage-badge";
+import { STAGE_LIST } from "@/lib/stages";
 
 const steps = [
   { icon: Search, title: "Explore", text: "Browse illustrative refurbishment projects with full cost, rent and risk breakdowns." },
@@ -48,11 +51,12 @@ export default function HomePage() {
               Property Investment. <span className="text-forest">Made More Accessible.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-              Explore a new approach to investing in Irish property, designed to make participation more accessible while supporting the refurbishment of vacant homes.
+              Irish people can’t afford to buy, rents are punishing, and thousands of homes sit vacant. Meithera lets ordinary people fund new supply — refurbishing vacant homes — in small amounts, through an EU crowdfunding licence (ECSPR), with every euro, holder and payout recorded on Raya Chain and visible to the supervisor. Over time, tenants can buy into the home they live in.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/properties" className={buttonVariants({ size: "lg" })}>Explore Properties <ArrowRight className="h-4 w-4" /></Link>
               <Link href="/how-it-works" className={buttonVariants({ variant: "secondary", size: "lg" })}>How It Works</Link>
+              <Link href="/roadmap" className={buttonVariants({ variant: "ghost", size: "lg" })}>The five stages</Link>
             </div>
             <RiskNotice className="mt-8 max-w-xl" />
           </div>
@@ -66,6 +70,23 @@ export default function HomePage() {
               <p className="text-xs text-muted">Demonstration figure only</p>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Five stages */}
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+          <SectionHeading eyebrow="The full vision, in five stages" title="Start with what can launch first. Show where it leads." intro="Every feature on this platform carries a stage badge. Only Stage 0 — this demonstration — exists today. Stages 1–4 are proposals, each with its legal basis stated." />
+          <ol className="mt-8 grid gap-4 md:grid-cols-5">
+            {STAGE_LIST.map((s) => (
+              <li key={s.n} className="rounded-2xl border border-line bg-card p-5">
+                <StageBadge stage={s.n} compact />
+                <p className="mt-3 font-sans text-xs font-semibold uppercase tracking-wide text-muted">{s.basisLabel}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{s.summary}</p>
+              </li>
+            ))}
+          </ol>
+          <Link href="/roadmap" className={buttonVariants({ variant: "ghost", className: "mt-6" })}>Roadmap: what we have and what we need <ArrowRight className="h-4 w-4" /></Link>
         </div>
       </section>
 
@@ -134,23 +155,11 @@ export default function HomePage() {
       {/* Transparency */}
       <section className="border-y border-line bg-card">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2">
-          <SectionHeading eyebrow="Investment transparency" title="Every euro accounted for, gross to net" intro="Each opportunity shows acquisition, refurbishment, legal costs and contingency, and walks from gross rent to the illustrative amount an investor might receive — before investor-level taxes." />
-          <Card className="tabular p-6 text-sm">
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example — Dublin 8, per €1,000 entered</p>
-            {[
-              ["Amount entered", "€1,000.00"],
-              ["Less illustrative entry fee (1.5%)", "−€15.00"],
-              ["Net invested in SPV", "€985.00"],
-              ["Share of gross rent", "€81.52"],
-              ["Less share of operating costs", "−€20.38"],
-              ["Share of net operating income", "€61.14"],
-              ["Less illustrative management fee (1%)", "−€9.85"],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between border-b border-line py-2"><span className="text-muted">{k}</span><span className="font-medium">{v}</span></div>
-            ))}
-            <div className="flex justify-between py-3 font-sans text-base font-bold text-emerald"><span>Illustrative annual income*</span><span>€51.29</span></div>
-            <p className="text-xs text-muted">*Before investor-level taxes. Not guaranteed. Figures are illustrative.</p>
-          </Card>
+          <SectionHeading eyebrow="Investment transparency" title="Every euro accounted for, gross to net" intro="Each opportunity shows acquisition, refurbishment, legal costs and contingency, and walks from gross rent to the illustrative amount an investor might receive — before investor-level taxes. Every figure here is computed live from the same finance engine that powers the calculators, with a 1.5% acquisition fee and a 0.5% annual administration fee." />
+          <div className="grid gap-6">
+            <RentShareExample />
+            <LoanExample />
+          </div>
         </div>
       </section>
 

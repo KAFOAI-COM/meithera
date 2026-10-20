@@ -8,7 +8,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <>
       <DemoBanner />
-      <Header session={session ? { role: session.role, name: session.name } : null} />
+      <Header session={session ? { role: session.role, name: session.name, userId: session.userId } : null} />
       <main id="main" className="min-h-[60vh]">{children}</main>
       <Footer />
     </>

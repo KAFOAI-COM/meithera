@@ -3,25 +3,29 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, LayoutDashboard, ShieldCheck, LogOut } from "lucide-react";
+import { Menu, X, LayoutDashboard, ShieldCheck, LogOut, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui";
 import { logout } from "@/app/actions";
+import { HOME_FOR_ROLE, type SessionInfo } from "@/lib/auth-types";
 import { Logo } from "./logo";
 
 const nav = [
-  { href: "/properties", label: "Properties" },
+  { href: "/properties", label: "Homes" },
   { href: "/how-it-works", label: "How it works" },
+  { href: "/roadmap", label: "Roadmap" },
+  { href: "/chain", label: "Raya Chain" },
   { href: "/impact", label: "Impact" },
   { href: "/compliance", label: "Regulatory readiness" },
-  { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
 ];
 
-export function Header({ session }: { session: { role: "investor" | "admin"; name: string } | null }) {
+const roleLabel: Record<SessionInfo["role"], string> = { investor: "Dashboard", tenant: "My home", supervisor: "Supervisor view", admin: "Admin" };
+
+export function Header({ session }: { session: SessionInfo | null }) {
   const [open, setOpen] = useState(false);
   const path = usePathname();
-  const home = session?.role === "admin" ? "/admin/overview" : "/dashboard";
+  const home = session ? HOME_FOR_ROLE[session.role] : "/login";
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
@@ -42,7 +46,7 @@ export function Header({ session }: { session: { role: "investor" | "admin"; nam
           {session ? (
             <>
               <Link href={home} className={buttonVariants({ variant: "primary", size: "sm" })}>
-                <LayoutDashboard className="h-4 w-4" /> {session.role === "admin" ? "Admin" : "Dashboard"}
+                <LayoutDashboard className="h-4 w-4" /> {roleLabel[session.role]}
               </Link>
               <form action={logout}>
                 <button className={buttonVariants({ variant: "secondary", size: "sm" })} aria-label="Log out">
@@ -57,13 +61,13 @@ export function Header({ session }: { session: { role: "investor" | "admin"; nam
             </>
           )}
         </div>
-        <button className="rounded-lg p-2 lg:hidden" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">
+        <button className="flex h-11 w-11 items-center justify-center rounded-lg lg:hidden" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
       {open ? (
         <nav className="border-t border-line bg-card px-4 pb-4 lg:hidden" aria-label="Mobile">
-          {[...nav, { href: "/regulatory-demo", label: "Regulatory demo" }].map((n) => (
+          {[...nav, { href: "/regulatory-demo", label: "Regulatory demo" }, { href: "/about", label: "About" }].map((n) => (
             <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="block border-b border-line py-3 font-sans text-base font-medium text-ink">
               {n.label}
             </Link>
@@ -71,7 +75,7 @@ export function Header({ session }: { session: { role: "investor" | "admin"; nam
           <div className="mt-4 flex gap-2">
             {session ? (
               <>
-                <Link href={home} onClick={() => setOpen(false)} className={cn(buttonVariants(), "flex-1")}>{session.role === "admin" ? "Admin" : "Dashboard"}</Link>
+                <Link href={home} onClick={() => setOpen(false)} className={cn(buttonVariants(), "flex-1")}><Link2 className="h-4 w-4" /> {roleLabel[session.role]}</Link>
                 <form action={logout}><button className={buttonVariants({ variant: "secondary" })}>Log out</button></form>
               </>
             ) : (

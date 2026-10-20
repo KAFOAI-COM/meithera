@@ -3,12 +3,24 @@ import { NextResponse, type NextRequest } from "next/server";
 const SESSION_COOKIE = "meithera_demo_session";
 const SECRET = process.env.DEMO_SESSION_SECRET ?? "meithera-local-demo-secret";
 
+type Role = "investor" | "tenant" | "supervisor" | "admin";
+
+/** Which roles may enter each protected prefix. */
+const RULES: { prefix: string; roles: Role[] }[] = [
+  { prefix: "/admin", roles: ["admin"] },
+  { prefix: "/supervisor", roles: ["supervisor", "admin"] },
+  { prefix: "/presentation", roles: ["admin", "supervisor"] },
+  { prefix: "/dashboard/tenant", roles: ["tenant", "admin"] },
+  { prefix: "/dashboard", roles: ["investor", "tenant", "admin", "supervisor"] },
+  { prefix: "/invest", roles: ["investor", "admin"] },
+];
+
 function b64urlToString(s: string) {
   const pad = s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4);
   return atob(pad);
 }
 
-async function verify(token?: string): Promise<{ role: string } | null> {
+async function verify(token?: string): Promise<{ role: Role } | null> {
   if (!token) return null;
   const [payload, sig] = token.split(".");
   if (!payload || !sig) return null;
@@ -28,24 +40,22 @@ async function verify(token?: string): Promise<{ role: string } | null> {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const rule = RULES.find((r) => pathname.startsWith(r.prefix));
+  if (!rule) return NextResponse.next();
   const session = await verify(req.cookies.get(SESSION_COOKIE)?.value);
-  const needsAuth = pathname.startsWith("/dashboard") || pathname.startsWith("/invest") || pathname.startsWith("/admin") || pathname.startsWith("/presentation");
-  if (!needsAuth) return NextResponse.next();
+  const url = req.nextUrl.clone();
+  url.pathname = "/login";
   if (!session) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
     url.search = `?next=${encodeURIComponent(pathname)}`;
     return NextResponse.redirect(url);
   }
-  if ((pathname.startsWith("/admin") || pathname.startsWith("/presentation")) && session.role !== "admin") {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
-    url.search = `?next=${encodeURIComponent(pathname)}&error=admin`;
+  if (!rule.roles.includes(session.role)) {
+    url.search = `?next=${encodeURIComponent(pathname)}&error=role&need=${rule.roles[0]}`;
     return NextResponse.redirect(url);
   }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/invest/:path*", "/admin/:path*", "/presentation/:path*"],
+  matcher: ["/dashboard/:path*", "/invest/:path*", "/admin/:path*", "/presentation/:path*", "/supervisor/:path*"],
 };

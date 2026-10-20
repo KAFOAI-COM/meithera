@@ -1,7 +1,10 @@
 import "server-only";
 import { cookies } from "next/headers";
+import type { Role } from "./auth-types";
 
-export type Role = "investor" | "admin";
+export type { Role } from "./auth-types";
+export { HOME_FOR_ROLE } from "./auth-types";
+export const ROLES: Role[] = ["investor", "tenant", "supervisor", "admin"];
 export const SESSION_COOKIE = "meithera_demo_session";
 
 export interface DemoSession {
@@ -35,7 +38,7 @@ export async function decodeSession(token: string | undefined): Promise<DemoSess
   if ((await sign(payload)) !== sig) return null;
   try {
     const s = JSON.parse(Buffer.from(payload, "base64url").toString()) as DemoSession;
-    if (s.role !== "investor" && s.role !== "admin") return null;
+    if (!ROLES.includes(s.role)) return null;
     return s;
   } catch {
     return null;

@@ -2,7 +2,8 @@ import type { Property } from "../types";
 
 /**
  * Illustrative demonstration properties. These are fictional: no real addresses,
- * no acquired assets, not investment offers.
+ * no acquired assets, not investment offers. Cork and Limerick are Stage 1 loan offers;
+ * Dublin 8 and Galway are Stage 2 rent-share offers.
  */
 export const seedProperties: Property[] = [
   {
@@ -16,6 +17,7 @@ export const seedProperties: Property[] = [
     county: "Dublin",
     type: "Two-bedroom residential",
     bedrooms: 2,
+    offerType: "rent-share",
     description:
       "An illustrative two-bedroom period home in the Dublin 8 area, modelled as long-term vacant and in need of a full energy and layout refurbishment before returning to the rental market.",
     objectives: [
@@ -34,16 +36,28 @@ export const seedProperties: Property[] = [
     status: "open",
     fundedPct: 0.62,
     holdingYears: 7,
-    distribution: "Quarterly",
+    distribution: "Monthly",
     riskLevel: "Moderate",
     spvId: "spv-d8",
     ber: "Target B1",
+    berBefore: "F (assumed)",
+    vacantSince: "2021",
     palette: { door: "#0d6656", brick: "#a65a43", sky: "#ddf3e8" },
     milestones: [
       { label: "Illustrative acquisition", date: "2027-01", done: false },
       { label: "Planning & survey", date: "2027-02", done: false },
       { label: "Refurbishment works", date: "2027-05", done: false },
       { label: "Tenancy begins", date: "2027-07", done: false },
+    ],
+    passport: [
+      { id: "pp-d8-1", kind: "vacancy", label: "Recorded as vacant", date: "2021-03", detail: "Illustrative: home vacant since 2021 according to the fictional vacancy survey.", done: true },
+      { id: "pp-d8-2", kind: "ber", label: "BER before works", date: "2026-09", detail: "Assumed F rating. Oil boiler, single glazing, no wall insulation.", done: true },
+      { id: "pp-d8-3", kind: "funding", label: "Funding opened", date: "2026-07", detail: "Rent-share offer opened to simulated investors (Stage 2).", done: true },
+      { id: "pp-d8-4", kind: "acquisition", label: "Acquisition", date: "2027-01", detail: "Illustrative purchase by the home's company (SPV).", done: false },
+      { id: "pp-d8-5", kind: "works", label: "Refurbishment works", date: "2027-05", detail: "Deep retrofit, rewire, replumb, kitchen and bathroom.", done: false },
+      { id: "pp-d8-6", kind: "ber", label: "BER after works", date: "2027-06", detail: "Target B1.", done: false },
+      { id: "pp-d8-7", kind: "tenancy", label: "Tenancy begins", date: "2027-07", detail: "Standard residential tenancy, RTB-registered.", done: false },
+      { id: "pp-d8-8", kind: "payout", label: "First monthly payout", date: "2027-08", detail: "Illustrative first monthly rental distribution to note holders.", done: false },
     ],
   },
   {
@@ -57,13 +71,15 @@ export const seedProperties: Property[] = [
     county: "Cork",
     type: "Vacant terraced house",
     bedrooms: 3,
+    offerType: "loan",
+    loan: { amount: 160000, ratePct: 7.5, termMonths: 18, security: "First legal charge over the property", arrangementFeePct: 0.015 },
     description:
-      "An illustrative three-bedroom mid-terrace house in Cork City, modelled as vacant for several years, with roof, insulation and window replacement required.",
+      "An illustrative three-bedroom mid-terrace house in Cork City, modelled as vacant for several years, with roof, insulation and window replacement required. Offered as a secured refurbishment loan.",
     objectives: [
       "Bring a long-term vacant terrace back into use",
       "Replace roof covering and upgrade insulation",
       "Install heat pump and new windows",
-      "Let to a household on a long-term tenancy",
+      "Refinance or sell on completion to repay lenders",
     ],
     acquisition: 165000,
     refurbishment: 55000,
@@ -74,17 +90,29 @@ export const seedProperties: Property[] = [
     vacancyPct: 0.05,
     status: "open",
     fundedPct: 0.38,
-    holdingYears: 7,
-    distribution: "Quarterly",
+    holdingYears: 1.5,
+    distribution: "Monthly",
     riskLevel: "Elevated",
     spvId: "spv-cork",
     ber: "Target B2",
+    berBefore: "G (assumed)",
+    vacantSince: "2019",
     palette: { door: "#c7a86d", brick: "#b8806a", sky: "#e9f1ec" },
     milestones: [
       { label: "Illustrative acquisition", date: "2027-03", done: false },
       { label: "Roof & envelope works", date: "2027-05", done: false },
       { label: "Interior refurbishment", date: "2027-08", done: false },
-      { label: "Tenancy begins", date: "2027-10", done: false },
+      { label: "Loan repaid", date: "2028-09", done: false },
+    ],
+    passport: [
+      { id: "pp-cork-1", kind: "vacancy", label: "Recorded as vacant", date: "2019-06", detail: "Illustrative: derelict since 2019 on the fictional local-authority register.", done: true },
+      { id: "pp-cork-2", kind: "ber", label: "BER before works", date: "2026-08", detail: "Assumed G rating. No heating system, failed roof.", done: true },
+      { id: "pp-cork-3", kind: "loan", label: "Loan offer opened", date: "2026-07", detail: "€160,000 secured refurbishment loan, 7.5% fixed, 18 months (Stage 1).", done: true },
+      { id: "pp-cork-4", kind: "acquisition", label: "Acquisition", date: "2027-03", detail: "Illustrative purchase by the borrower; first legal charge registered.", done: false },
+      { id: "pp-cork-5", kind: "works", label: "Roof and envelope works", date: "2027-05", detail: "Roof covering, insulation, heat pump, windows.", done: false },
+      { id: "pp-cork-6", kind: "ber", label: "BER after works", date: "2027-09", detail: "Target B2.", done: false },
+      { id: "pp-cork-7", kind: "tenancy", label: "Tenancy begins", date: "2027-10", detail: "Let on a long-term residential tenancy.", done: false },
+      { id: "pp-cork-8", kind: "payout", label: "Loan repaid", date: "2028-09", detail: "Principal returned to lenders at term.", done: false },
     ],
   },
   {
@@ -98,6 +126,7 @@ export const seedProperties: Property[] = [
     county: "Galway",
     type: "Residential apartment",
     bedrooms: 2,
+    offerType: "rent-share",
     description:
       "An illustrative two-bedroom apartment in Galway City requiring a light-touch refurbishment, modelled to show a lower-refurbishment, higher-acquisition profile.",
     objectives: [
@@ -116,16 +145,27 @@ export const seedProperties: Property[] = [
     status: "coming-soon",
     fundedPct: 0,
     holdingYears: 5,
-    distribution: "Quarterly",
+    distribution: "Monthly",
     riskLevel: "Moderate",
     spvId: "spv-galway",
     ber: "Target B2",
+    berBefore: "D1 (assumed)",
+    vacantSince: "2024",
     palette: { door: "#063f36", brick: "#d9d2c3", sky: "#f1ece0" },
     milestones: [
       { label: "Opportunity review", date: "2027-04", done: false },
       { label: "Illustrative acquisition", date: "2027-06", done: false },
       { label: "Refurbishment works", date: "2027-07", done: false },
       { label: "Tenancy begins", date: "2027-09", done: false },
+    ],
+    passport: [
+      { id: "pp-gal-1", kind: "vacancy", label: "Recorded as vacant", date: "2024-11", detail: "Illustrative: unlet since late 2024.", done: true },
+      { id: "pp-gal-2", kind: "ber", label: "BER before works", date: "2026-10", detail: "Assumed D1 rating.", done: true },
+      { id: "pp-gal-3", kind: "funding", label: "Funding opens", date: "2027-04", detail: "Rent-share offer (Stage 2) — coming soon.", done: false },
+      { id: "pp-gal-4", kind: "acquisition", label: "Acquisition", date: "2027-06", detail: "Illustrative purchase by the home's company (SPV).", done: false },
+      { id: "pp-gal-5", kind: "works", label: "Refurbishment works", date: "2027-07", detail: "Heating controls, glazing, kitchen, flooring.", done: false },
+      { id: "pp-gal-6", kind: "ber", label: "BER after works", date: "2027-08", detail: "Target B2.", done: false },
+      { id: "pp-gal-7", kind: "tenancy", label: "Tenancy begins", date: "2027-09", detail: "Long-term residential letting.", done: false },
     ],
   },
   {
@@ -139,13 +179,15 @@ export const seedProperties: Property[] = [
     county: "Limerick",
     type: "Residential refurbishment project",
     bedrooms: 3,
+    offerType: "loan",
+    loan: { amount: 130000, ratePct: 7.5, termMonths: 18, security: "First legal charge over the property", arrangementFeePct: 0.015 },
     description:
-      "An illustrative Georgian-era property in Limerick City modelled as derelict, requiring structural repairs and a full refurbishment — the highest refurbishment share of the four demonstration projects.",
+      "An illustrative Georgian-era property in Limerick City modelled as derelict, requiring structural repairs and a full refurbishment — the highest refurbishment share of the four demonstration projects. Offered as a secured refurbishment loan, now fully subscribed (simulated).",
     objectives: [
       "Restore a derelict period building to residential use",
       "Structural repairs and damp remediation",
       "Full refurbishment to modern standards",
-      "Let on a long-term residential tenancy",
+      "Refinance on completion to repay lenders",
     ],
     acquisition: 120000,
     refurbishment: 52000,
@@ -156,17 +198,30 @@ export const seedProperties: Property[] = [
     vacancyPct: 0.06,
     status: "funded",
     fundedPct: 1,
-    holdingYears: 8,
-    distribution: "Quarterly",
+    holdingYears: 1.5,
+    distribution: "Monthly",
     riskLevel: "High",
     spvId: "spv-limerick",
     ber: "Target B2",
+    berBefore: "G (assumed)",
+    vacantSince: "2016",
     palette: { door: "#8f2f22", brick: "#9a5b45", sky: "#e9f1ec" },
     milestones: [
       { label: "Illustrative acquisition", date: "2026-09", done: true },
       { label: "Structural works", date: "2026-12", done: false },
       { label: "Refurbishment works", date: "2027-04", done: false },
-      { label: "Tenancy begins", date: "2027-06", done: false },
+      { label: "Loan repaid", date: "2028-03", done: false },
+    ],
+    passport: [
+      { id: "pp-lim-1", kind: "vacancy", label: "Recorded as derelict", date: "2016-02", detail: "Illustrative: on the fictional derelict sites register since 2016.", done: true },
+      { id: "pp-lim-2", kind: "ber", label: "BER before works", date: "2026-06", detail: "Assumed G rating. Structural damp, no services.", done: true },
+      { id: "pp-lim-3", kind: "loan", label: "Loan fully subscribed", date: "2026-08", detail: "€130,000 secured refurbishment loan, 7.5% fixed, 18 months (Stage 1). Simulated.", done: true },
+      { id: "pp-lim-4", kind: "acquisition", label: "Acquisition", date: "2026-09", detail: "Illustrative purchase; first legal charge registered in favour of the lenders' security trustee.", done: true },
+      { id: "pp-lim-5", kind: "payout", label: "First monthly interest", date: "2026-10", detail: "Illustrative first monthly interest payment to lenders.", done: true },
+      { id: "pp-lim-6", kind: "works", label: "Structural works", date: "2026-12", detail: "Structural repairs and damp remediation.", done: false },
+      { id: "pp-lim-7", kind: "ber", label: "BER after works", date: "2027-05", detail: "Target B2.", done: false },
+      { id: "pp-lim-8", kind: "tenancy", label: "Tenancy begins", date: "2027-06", detail: "Let on a long-term residential tenancy.", done: false },
+      { id: "pp-lim-9", kind: "payout", label: "Loan repaid", date: "2028-03", detail: "Principal returned to lenders at term.", done: false },
     ],
   },
 ];
