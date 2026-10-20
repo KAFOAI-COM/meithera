@@ -4,6 +4,8 @@
 
 > Demonstration only. No real investments, payments, KYC, tokens, wallets or chain calls. Every home, person and figure is fictional and labelled *illustrative*. Meithera is **not** authorised or regulated by the Central Bank of Ireland; the Innovation Hub provides guidance, not approval.
 
+**Live demo:** https://meithera.omnirisk.io (also https://meithera.vercel.app) — log in as Administrator and press **Launch Regulatory Presentation**. Deployment details: `docs/deployment.md`.
+
 ## The idea in one paragraph
 
 Irish people can’t afford to buy, rents are punishing, and thousands of homes sit vacant. Meithera lets ordinary people fund new supply — refurbishing vacant homes — in small amounts, through an EU crowdfunding licence (ECSPR), with every euro, holder and payout recorded on **Raya Chain** and visible to the supervisor. Over time, tenants can buy into the home they live in.
