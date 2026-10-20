@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StageBadge } from "./stage-badge";
 import { PageHeader } from "./notices";
 
 export interface LegalSection {
@@ -18,7 +19,8 @@ export function LegalPage({ eyebrow, title, intro, updated, sections, current, l
   return (
     <>
       <PageHeader eyebrow={eyebrow} title={title} intro={intro}>
-        <p className="mt-5 text-xs text-muted">Demonstration document · last updated {updated} · not legal advice and not a binding agreement</p>
+        <div className="mt-6"><StageBadge stage={0} detail /></div>
+        <p className="mt-4 text-xs text-muted">Demonstration document · last updated {updated} · not legal advice and not a binding agreement</p>
       </PageHeader>
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside className="lg:sticky lg:top-28 lg:self-start">

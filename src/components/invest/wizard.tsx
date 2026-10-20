@@ -92,7 +92,8 @@ export function InvestWizard({ propertyId, investorId, personaName, actingAsDemo
   };
   const go = (n: number) => {
     setStep(n);
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    // Jump after the new step renders; a smooth scroll gets cut short when the page shrinks between steps.
+    if (typeof window !== "undefined") requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
   };
 
   const tx = result ? chain.txs.find((t) => t.txId === result.txId) : undefined;

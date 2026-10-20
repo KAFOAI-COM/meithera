@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { StageBadge } from "@/components/site/stage-badge";
 import Link from "next/link";
 import { FaqList, faqs, type Faq } from "@/components/site/faq-list";
 import { PageHeader, RiskNotice } from "@/components/site/notices";
@@ -10,7 +11,9 @@ const TOPICS: Faq["topic"][] = ["Basics", "Investing", "Risk", "Raya Chain", "Re
 export default function FaqPage() {
   return (
     <>
-      <PageHeader eyebrow="Frequently asked questions" title="Plain answers" intro="What Meithera would be, what it would not be, and what can go wrong." />
+      <PageHeader eyebrow="Frequently asked questions" title="Plain answers" intro="What Meithera would be, what it would not be, and what can go wrong.">
+        <div className="mt-6"><StageBadge stage={0} detail /></div>
+      </PageHeader>
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[220px_1fr]">
         <nav className="lg:sticky lg:top-28 lg:self-start" aria-label="FAQ topics">
           <ul className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { StageBadge } from "@/components/site/stage-badge";
 import { usePathname } from "next/navigation";
 import { Coins } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -28,7 +29,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <div>
               <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">{role === "tenant" ? "Tenant dashboard" : "Investor dashboard"} · simulated</p>
               <h1 className="mt-2 font-serif text-4xl tracking-tight sm:text-5xl">Welcome back, {displayName.split(" ")[0]}</h1>
-              <p className="mt-2 font-mono text-xs text-white/50">Raya Chain holder {holder}</p>
+              <div className="mt-3 flex flex-wrap items-center gap-3"><StageBadge stage={role === "tenant" ? 3 : 0} detail /><p className="font-mono text-xs text-white/50">Raya Chain holder {holder}</p></div>
             </div>
             {role !== "tenant" ? <Link href="/invest" className={buttonVariants({ variant: "gold" })}><Coins className="h-4 w-4" /> Simulate an investment</Link> : null}
           </div>

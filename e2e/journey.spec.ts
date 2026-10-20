@@ -33,6 +33,8 @@ test.describe("investor journey", () => {
     await page.getByRole("button", { name: "Continue" }).click();
     await page.getByLabel(/I understand I could lose the whole/).check();
     await page.getByRole("button", { name: "Finish onboarding" }).click();
+    // Each step opens at the top of the page (regression: a smooth scroll used to stop half-way).
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
     // Step 4 — risk acknowledgement, exact wording
     await expect(page.getByText("Property investments involve risk, including possible loss of capital. Returns are not guaranteed and investments may be illiquid.").first()).toBeVisible();
