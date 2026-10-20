@@ -2,6 +2,8 @@
 
 Demonstration MVP of a proposed Irish fractional property investment platform (Stake Ireland / Meithera) for the **Central Bank of Ireland Innovation Hub** meeting (late Oct / early Nov 2026).
 
+**Fees / payouts (per Innovation Hub submission):** 1.5% acquisition fee + 0.5%/yr administration fee; illustrative distributions monthly. `finance.ts` still has 1%/yr and seed data quarterly — update. Competitor study: `docs/competitor-analysis.md`. Codex brief: `docs/briefs/03-codex-prompt.md`.
+
 **Read first:** `docs/briefs/01-master-prompt.md` (full spec, routes, sections), `docs/briefs/02-mvp-brief.md` (second brief: Prisma + PostgreSQL/PostGIS, pitch-deck content), `PROJECT_PLAN.md`, `ARCHITECTURE.md`, `REGULATORY_ASSUMPTIONS.md`.
 
 ## Hard rules (never break)
@@ -40,7 +42,7 @@ Colours: emerald `#063F36`, forest `#0D6656`, mint `#DDF3E8`, off-white `#F8FAF8
 7. **Presentation:** `/presentation` full-screen, 10 slides (overview, housing problem, marketplace, simulation, SPV, money flows, blockchain, protections, regulatory questions, proposed pilot), Previous/Next/Exit, progress bar, arrow-key nav, no external APIs.
 8. **Database:** `prisma/schema.prisma` (PostgreSQL + `postgis` extension via `previewFeatures = ["postgresqlExtensions"]`; `location Unsupported("geography(Point,4326)")`; County with boundary `geography(MultiPolygon,4326)`), `prisma/seed.ts` reusing `src/lib/data`, raw SQL for `ST_SetSRID(ST_MakePoint(lng,lat),4326)`, `docker-compose.yml` with `postgis/postgis:16-3.4`, `supabase/migrations/*_rls.sql`, `.env.example`. App must still run with no DB.
 9. **Docs:** `README.md`, `docs/product-requirements.md`, `docs/technical-architecture.md`, `docs/investment-structure.md`, `docs/regulatory-questions.md`, `docs/blockchain-architecture.md` (8 topics from brief §12), `docs/demo-script.md` (7–10 min Central Bank walkthrough), `docs/deployment.md`, `docs/pitch-deck-content.md`.
-10. **QA:** `tsc`, `pnpm lint`, `pnpm build`, unit tests for finance (e.g. Dublin 8 per €1,000: net invested €985, NOI share €61.14, income €51.29; yield 6.21%), Playwright smoke over every route at desktop + 390px mobile.
+10. **QA:** `tsc`, `pnpm lint`, `pnpm build`, unit tests for finance (e.g. Dublin 8 per €1,000: net invested €985, NOI share €61.14, admin fee 0.5% = €4.925, income €56.21; yield 6.21%), Playwright smoke over every route at desktop + 390px mobile.
 
 ## Commands
 
