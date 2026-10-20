@@ -1,4 +1,4 @@
-import type { AuditEvent, DistributionRun, Investor, Property, SimInvestment, Spv } from "../types";
+import type { AuditEvent, Complaint, DistributionRun, Investor, Property, SimInvestment, Spv } from "../types";
 import { fnv } from "../utils";
 import { FEES, illustrateLoan, offerSize } from "../finance";
 import { commit, type ChainState, type TxInput } from "../chain/raya";
@@ -6,6 +6,12 @@ import { pseudonym } from "../ledger";
 import { seedProperties } from "./properties";
 
 export const DEMO_INVESTOR_ID = "inv-001";
+
+/** Simulated complaints log, shown on the supervisor view and read by the Supervisory Reporter agent. */
+export const seedComplaints: Complaint[] = [
+  { id: "CMP-0007", topic: "Statement arrived later than expected", status: "Resolved", days: 3 },
+  { id: "CMP-0009", topic: "Question about how the administration fee is charged", status: "Open", days: 2 },
+];
 
 /** Five fictional investors. None of these people exist. */
 export const seedInvestors: Investor[] = [

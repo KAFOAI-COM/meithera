@@ -112,7 +112,8 @@ export type AuditType =
   | "EXIT_VOTE"
   | "BULLETIN_POST"
   | "AUTOINVEST_RULE"
-  | "STAIRCASING";
+  | "STAIRCASING"
+  | "AGENT_APPROVAL";
 
 export interface AuditEvent {
   id: string;
@@ -175,4 +176,12 @@ export interface StaircaseStep {
   payment: number;
   txId: string;
   at: string;
+}
+
+/** Simulated complaint record (no personal data). */
+export interface Complaint {
+  id: string;
+  topic: string;
+  status: "Open" | "Resolved";
+  days: number;
 }

@@ -17,19 +17,23 @@ const ROUTES = [
   "/login",
   "/register",
   "/chain",
+  "/roadmap",
+  "/regulatory-demo",
+  "/agents",
 ];
 
 /** Routes that need a session; screenshotted after logging in as the investor persona. */
 const AUTH_ROUTES = [
   "/invest", "/invest/prop-d8", "/dashboard", "/dashboard/portfolio", "/dashboard/income", "/dashboard/transactions", "/dashboard/documents", "/dashboard/settings", "/dashboard/tenant",
   "/supervisor",
+  "/presentation",
   "/admin/overview", "/admin/properties", "/admin/investors", "/admin/spvs", "/admin/distributions", "/admin/audit-log",
 ];
 const personaFor = (route: string) =>
-  route.endsWith("tenant") ? /Continue as Ciara/ : route.startsWith("/supervisor") ? /Continue as Supervisor/ : route.startsWith("/admin") ? /Continue as Administrator/ : /Continue as Aoife/;
+  route.endsWith("tenant") ? /Continue as Ciara/ : route.startsWith("/supervisor") ? /Continue as Supervisor/ : route.startsWith("/admin") || route.startsWith("/presentation") ? /Continue as Administrator/ : /Continue as Aoife/;
 
 /** Routes linked from the shell but built in later sessions. Their prefetch 404s are tolerated until then. */
-const PENDING = ["/roadmap", "/regulatory-demo", "/presentation"];
+const PENDING: string[] = [];
 
 for (const route of [...ROUTES, ...AUTH_ROUTES]) {
   test(`screens ${route}`, async ({ page }, info) => {

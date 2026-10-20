@@ -2,9 +2,9 @@
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { AuditEvent, AuditType, AutoInvestRules, BulletinPost, ChainTx, DistributionRun, Investor, Property, SimInvestment, StaircaseStep, VoteChoice } from "./types";
+import type { AuditEvent, AuditType, AutoInvestRules, BulletinPost, ChainTx, Complaint, DistributionRun, Investor, Property, SimInvestment, StaircaseStep, VoteChoice } from "./types";
 import { seedProperties } from "./data/properties";
-import { chainAudit, DEMO_INVESTOR_ID, issueTx, seedAudit, seedChain, seedDistributions, seedInvestments, seedInvestors, verifiedWallets } from "./data/seed";
+import { chainAudit, DEMO_INVESTOR_ID, issueTx, seedComplaints, seedAudit, seedChain, seedDistributions, seedInvestments, seedInvestors, verifiedWallets } from "./data/seed";
 import { commit, type ChainState, type TxInput } from "./chain/raya";
 import { pseudonym } from "./ledger";
 import { eur, fnv, uid } from "./utils";
@@ -29,6 +29,9 @@ interface DemoState {
   bulletin: BulletinPost[];
   autoInvest: AutoInvestRules;
   staircase: StaircaseStep[];
+  complaints: Complaint[];
+  /** Agent id → ISO time a human approved its output. */
+  agentApprovals: Record<string, string>;
   log: (type: AuditType, actor: string, detail: string) => void;
   commitTxs: (inputs: TxInput[]) => ChainTx[];
   simulateInvestment: (investorId: string, propertyId: string, amount: number) => SimInvestment;
@@ -49,6 +52,7 @@ interface DemoState {
   setAutoInvest: (rules: AutoInvestRules) => void;
   /** Stage 3: tenant buys a further share of their home's company; recorded on Raya Chain. */
   recordStaircaseStep: (tenantId: string, propertyId: string, year: number, tenantPct: number, payment: number) => StaircaseStep;
+  approveAgent: (agentId: string, label: string) => void;
   reset: () => void;
 }
 
@@ -69,6 +73,8 @@ const initial = () => ({
   bulletin: [] as BulletinPost[],
   autoInvest: { ...DEFAULT_AUTOINVEST },
   staircase: [] as StaircaseStep[],
+  complaints: structuredClone(seedComplaints),
+  agentApprovals: {} as Record<string, string>,
 });
 
 export const useDemo = create<DemoState>()(
@@ -238,13 +244,17 @@ export const useDemo = create<DemoState>()(
         get().log("STAIRCASING", tenantId, `Staircasing year ${year} recorded: tenant share ${Math.round(tenantPct * 100)}% — Raya Chain ${tx.txId.slice(0, 12)}…`);
         return step;
       },
+      approveAgent: (agentId, label) => {
+        set({ agentApprovals: { ...get().agentApprovals, [agentId]: new Date().toISOString() } });
+        get().log("AGENT_APPROVAL", "admin", `Human approval recorded for agent "${agentId}": ${label} (EU AI Act human oversight, simulated)`);
+      },
       reset: () => set(initial()),
     }),
     {
       name: "meithera-demo-v2",
       storage: createJSONStorage(() => sessionStorage),
       skipHydration: true,
-      partialize: (s) => ({ properties: s.properties, investors: s.investors, investments: s.investments, distributions: s.distributions, audit: s.audit, chain: s.chain, votes: s.votes, bulletin: s.bulletin, autoInvest: s.autoInvest, staircase: s.staircase }),
+      partialize: (s) => ({ properties: s.properties, investors: s.investors, investments: s.investments, distributions: s.distributions, audit: s.audit, chain: s.chain, votes: s.votes, bulletin: s.bulletin, autoInvest: s.autoInvest, staircase: s.staircase, complaints: s.complaints, agentApprovals: s.agentApprovals }),
     },
   ),
 );

@@ -12,6 +12,12 @@ export const VARIANT_LABEL: Record<StageVariant, string> = {
 
 export interface StageInfo {
   stage: Stage;
+  /** Same as `stage`. */
+  n: Stage;
+  /** e.g. "Stage 1 · Lending" */
+  short: string;
+  /** Legal-basis label, e.g. "Possible under ECSPR". */
+  basisLabel: string;
   name: string;
   variant: StageVariant;
   headline: string;
@@ -20,7 +26,7 @@ export interface StageInfo {
 }
 
 /** The five stages from demonstration to the Internet of Value. Only Stage 0 exists today, and it is simulated. */
-export const STAGES: StageInfo[] = [
+const RAW_STAGES: Omit<StageInfo, "n" | "short" | "basisLabel">[] = [
   {
     stage: 0,
     name: "Demo",
@@ -63,7 +69,13 @@ export const STAGES: StageInfo[] = [
   },
 ];
 
+export const STAGES: StageInfo[] = RAW_STAGES.map((s) => ({ ...s, n: s.stage, short: `Stage ${s.stage} · ${s.name}`, basisLabel: VARIANT_LABEL[s.variant] }));
+
 export const stageInfo = (s: Stage) => STAGES[s];
+
+/** Aliases used by the roadmap, regulatory demo and presentation. */
+export type StageNumber = Stage;
+export const STAGE_LIST = STAGES;
 
 /** Offer badge text and stage for a property: Stage 1 secured loan or Stage 2 rent share. */
 export const offerStage = (p: Pick<Property, "offerType">): Stage => (p.offerType === "loan" ? 1 : 2);

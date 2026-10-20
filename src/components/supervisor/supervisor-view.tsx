@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowUpRight, CheckCircle2, Download, Eye, FileJson, Shi
 import { useDemo } from "@/lib/store";
 import { capTable, TX_LABEL, verifyChain } from "@/lib/chain/raya";
 import { verifyAudit, download, toCsv } from "@/lib/audit";
+import { seedComplaints } from "@/lib/data/seed";
 import { offerSize } from "@/lib/finance";
 import { pseudonym } from "@/lib/ledger";
 import { propertyColor } from "@/lib/portfolio";
@@ -17,10 +18,7 @@ export const ECSPR_CAP = 5_000_000;
 /** Illustrative AML rule: single simulated commitments at or above this are flagged for enhanced review. */
 const AML_THRESHOLD = 7500;
 
-const COMPLAINTS = [
-  { id: "CMP-0007", topic: "Statement arrived later than expected", status: "Resolved", days: 3 },
-  { id: "CMP-0009", topic: "Question about how the administration fee is charged", status: "Open", days: 2 },
-];
+const COMPLAINTS = seedComplaints;
 
 function Kpi({ label, value, sub, tone = "default" }: { label: string; value: string; sub: string; tone?: "default" | "good" | "warn" }) {
   return (

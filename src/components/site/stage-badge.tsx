@@ -26,6 +26,8 @@ export function StageBadge({
   detail = false,
   className,
 }: {
+  /** Accepted for compatibility; badges are already compact. */
+  compact?: boolean;
   stage: Stage;
   /** Override the stage's default legal-basis variant. */
   variant?: StageVariant;
@@ -44,5 +46,16 @@ export function StageBadge({
       Stage {stage} · {info.name}
       {detail ? <span className="font-medium opacity-80">· {VARIANT_LABEL[v]}</span> : null}
     </span>
+  );
+}
+
+/** All five stages in a row; the active one stays at full strength. */
+export function StageStrip({ active, className }: { active?: Stage; className?: string }) {
+  return (
+    <div className={cn("flex flex-wrap gap-2", className)}>
+      {([0, 1, 2, 3, 4] as Stage[]).map((n) => (
+        <StageBadge key={n} stage={n} className={cn(active !== undefined && active !== n && "opacity-50")} />
+      ))}
+    </div>
   );
 }

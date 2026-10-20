@@ -9,6 +9,15 @@ export const FEES = {
   annualAdminPct: 0.005, // 0.5% annual administration fee on net invested capital
 } as const;
 
+/** ECSPR illustrative thresholds used in the demo. */
+export const ECSPR = {
+  offerCapEur: 5_000_000, // per project owner, 12 months
+  warningFloorEur: 1_000, // higher of €1,000 or 5% of net worth
+  warningNetWorthPct: 0.05,
+  reflectionDays: 4,
+  knowledgeTestPass: 4, // out of 5
+} as const;
+
 export function totalCost(p: Pick<Property, "acquisition" | "refurbishment" | "legal" | "contingency">) {
   return p.acquisition + p.refurbishment + p.legal + p.contingency;
 }
