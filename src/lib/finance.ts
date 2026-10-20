@@ -1,9 +1,12 @@
 import type { Property } from "./types";
 
-/** Illustrative platform fee assumptions. Not a fee schedule. */
+/**
+ * Illustrative fee assumptions, as described in the Innovation Hub submission.
+ * Not a fee schedule.
+ */
 export const FEES = {
-  entryFeePct: 0.015, // one-off, deducted from the amount entered
-  annualMgmtPct: 0.01, // annual, charged on net invested capital
+  entryFeePct: 0.015, // 1.5% acquisition fee, one-off, deducted from the amount entered
+  annualAdminPct: 0.005, // 0.5% annual administration fee on net invested capital
 } as const;
 
 export function totalCost(p: Pick<Property, "acquisition" | "refurbishment" | "legal" | "contingency">) {
@@ -23,6 +26,11 @@ export function grossYield(p: Property) {
   return p.annualRent / totalCost(p);
 }
 
+/** Headline indicative rate shown on cards: loan coupon for Stage 1, property NOI yield for Stage 2. */
+export function headlineRate(p: Property) {
+  return p.offerType === "loan" && p.loan ? p.loan.ratePct / 100 : netOperatingYield(p);
+}
+
 export interface InvestorIllustration {
   amount: number;
   entryFee: number;
@@ -31,7 +39,7 @@ export interface InvestorIllustration {
   grossRentShare: number;
   opexShare: number;
   noiShare: number;
-  mgmtFee: number;
+  adminFee: number;
   annualIncome: number; // before investor-level taxes
   monthlyIncome: number;
   investorYield: number; // annual income / amount entered
@@ -39,8 +47,8 @@ export interface InvestorIllustration {
 }
 
 /**
- * Illustrative investor-level figures. Property-level yield is NOT the investor's return:
- * entry and management fees are deducted, and investor-level taxes are not modelled.
+ * Illustrative investor-level figures for a Stage 2 rent-share. Property-level yield is NOT the
+ * investor's return: entry and administration fees are deducted, investor-level taxes are not modelled.
  */
 export function illustrate(p: Property, amount: number): InvestorIllustration {
   const total = totalCost(p);
@@ -50,8 +58,8 @@ export function illustrate(p: Property, amount: number): InvestorIllustration {
   const grossRentShare = p.annualRent * participation;
   const opexShare = p.annualOpex * participation;
   const noiShare = grossRentShare - opexShare;
-  const mgmtFee = netInvested * FEES.annualMgmtPct;
-  const annualIncome = Math.max(0, noiShare - mgmtFee);
+  const adminFee = netInvested * FEES.annualAdminPct;
+  const annualIncome = Math.max(0, noiShare - adminFee);
   return {
     amount,
     entryFee,
@@ -60,12 +68,63 @@ export function illustrate(p: Property, amount: number): InvestorIllustration {
     grossRentShare,
     opexShare,
     noiShare,
-    mgmtFee,
+    adminFee,
     annualIncome,
     monthlyIncome: annualIncome / 12,
     investorYield: amount > 0 ? annualIncome / amount : 0,
     propertyYield: netOperatingYield(p),
   };
+}
+
+export interface LoanIllustration {
+  amount: number;
+  entryFee: number;
+  netLent: number;
+  participation: number; // share of the loan facility
+  ratePct: number;
+  months: number;
+  monthlyInterest: number;
+  adminFeeMonthly: number;
+  monthlyNet: number;
+  totalInterest: number;
+  totalNet: number;
+  schedule: { month: number; interest: number; adminFee: number; net: number; principal: number }[];
+}
+
+/** Stage 1 secured refurbishment loan: fixed interest paid monthly, principal returned at maturity. */
+export function illustrateLoan(amount: number, ratePct: number, months: number, facility = 0): LoanIllustration {
+  const entryFee = amount * FEES.entryFeePct;
+  const netLent = amount - entryFee;
+  const monthlyInterest = (netLent * ratePct) / 100 / 12;
+  const adminFeeMonthly = (netLent * FEES.annualAdminPct) / 12;
+  const monthlyNet = monthlyInterest - adminFeeMonthly;
+  const schedule = Array.from({ length: months }, (_, i) => ({
+    month: i + 1,
+    interest: monthlyInterest,
+    adminFee: adminFeeMonthly,
+    net: monthlyNet,
+    principal: i === months - 1 ? netLent : 0,
+  }));
+  return {
+    amount,
+    entryFee,
+    netLent,
+    participation: facility > 0 ? netLent / facility : 0,
+    ratePct,
+    months,
+    monthlyInterest,
+    adminFeeMonthly,
+    monthlyNet,
+    totalInterest: monthlyInterest * months,
+    totalNet: monthlyNet * months,
+    schedule,
+  };
+}
+
+/** Loan facility for a Stage 1 offer = LTV × valuation, capped at total project cost. */
+export function loanFacility(p: Property) {
+  if (!p.loan) return 0;
+  return Math.min(totalCost(p), Math.round((p.valuation * p.loan.ltvPct) / 100 / 1000) * 1000);
 }
 
 export interface ModelInputs {
@@ -153,7 +212,19 @@ export function propertyToModel(p: Property, investment = 1000): ModelInputs {
     maintenance: p.opex.maintenance + p.opex.other,
     insurance: p.opex.insurance,
     managementPct: p.annualRent > 0 ? p.opex.management / (p.annualRent * (1 - p.vacancyPct)) : 0.1,
-    platformFeePct: FEES.annualMgmtPct,
+    platformFeePct: FEES.annualAdminPct,
     investment,
   };
+}
+
+/** Staircasing (Stage 3): tenant buys equity in their home's company over time. */
+export function staircase(p: Property, startPct: number, yearlyTopUpPct: number, years: number) {
+  const total = totalCost(p);
+  const rows: { year: number; tenantPct: number; investorPct: number; annualRent: number; tenantEquity: number }[] = [];
+  let share = startPct;
+  for (let y = 0; y <= years; y++) {
+    rows.push({ year: y, tenantPct: share, investorPct: 1 - share, annualRent: p.annualRent * (1 - share), tenantEquity: total * share });
+    share = Math.min(1, share + yearlyTopUpPct);
+  }
+  return rows;
 }

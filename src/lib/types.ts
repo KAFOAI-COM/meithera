@@ -1,4 +1,6 @@
 export type PropertyStatus = "open" | "coming-soon" | "funded";
+export type OfferType = "loan" | "rent-share";
+export type Stage = 0 | 1 | 2 | 3 | 4;
 export type RiskLevel = "Moderate" | "Elevated" | "High";
 
 export interface Milestone {
@@ -10,6 +12,11 @@ export interface Milestone {
 export interface Property {
   id: string;
   slug: string;
+  /** Stage 1 = secured refurbishment loan; Stage 2 = rent-share notes in the property SPV. */
+  offerType: OfferType;
+  /** Representative photography (not the actual property). */
+  images: string[];
+  loan?: { ratePct: number; months: number; ltvPct: number; security: string };
   title: string;
   location: string;
   county: string;
@@ -103,4 +110,29 @@ export interface AuditEvent {
   at: string;
   hash: string;
   prevHash: string;
+}
+
+export type ChainTxType = "GENESIS" | "ISSUE" | "TRANSFER" | "DISTRIBUTION" | "REPAYMENT" | "FREEZE" | "CORRECTION" | "ANCHOR" | "REJECTED";
+
+export interface ChainTx {
+  txId: string;
+  type: ChainTxType;
+  spvId?: string;
+  from?: string; // pseudonymous holder ref
+  to?: string;
+  units?: number;
+  amount?: number; // EUR (simulated)
+  memo: string;
+  at: string;
+  block: number;
+}
+
+export interface ChainBlock {
+  height: number;
+  at: string;
+  prevHash: string;
+  merkleRoot: string;
+  hash: string;
+  txIds: string[];
+  anchors: { chain: string; ref: string }[];
 }

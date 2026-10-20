@@ -88,11 +88,11 @@ export const useDemo = create<DemoState>()(
         const rentalIncome = (p.annualRent * (1 - p.vacancyPct)) / 4;
         const expenses = p.annualOpex / 4;
         const allocated = holdings.reduce((s, h) => s + h.netInvested, 0);
-        const mgmtFee = (allocated * FEES.annualMgmtPct) / 4;
+        const mgmtFee = (allocated * FEES.annualAdminPct) / 12;
         const distributablePool = rentalIncome - expenses;
         const allocations = holdings.map((h) => ({
           investorId: h.investorId,
-          amount: Math.max(0, distributablePool * h.participation - (h.netInvested * FEES.annualMgmtPct) / 4),
+          amount: Math.max(0, distributablePool * h.participation - (h.netInvested * FEES.annualAdminPct) / 12),
         }));
         const run: DistributionRun = {
           id: uid("DIST"),
