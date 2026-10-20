@@ -157,16 +157,30 @@ export const seedChain: ChainState = seed.chain;
 export const seedInvestments: SimInvestment[] = seed.investments;
 export const seedDistributions: DistributionRun[] = seed.distributions;
 
-const rawAudit: Omit<AuditEvent, "hash" | "prevHash">[] = [
-  { id: "EVT-000001", type: "USER_REGISTRATION", actor: "inv-001", detail: "Fictional investor Aoife Byrne registered (demo)", at: "2026-06-02T10:00:00Z" },
-  { id: "EVT-000002", type: "RISK_ACKNOWLEDGEMENT", actor: "inv-001", detail: "Risk warning acknowledged for Dublin 8 simulation", at: "2026-07-03T10:10:00Z" },
-  { id: "EVT-000003", type: "INVESTMENT_SIMULATION", actor: "inv-001", detail: "Simulated €2,500 into Dublin 8 SPV (sim-0001)", at: "2026-07-03T10:12:00Z" },
-  { id: "EVT-000004", type: "LEDGER_EVENT", actor: "system", detail: `Raya Chain ISSUE ${seed.investments[0].txId?.slice(0, 12)}… recorded for sim-0001`, at: "2026-07-03T10:12:01Z" },
-  { id: "EVT-000005", type: "DISTRIBUTION_SIMULATION", actor: "admin", detail: "Simulated Limerick loan interest for 2026-08 — no payments made", at: "2026-08-17T10:00:00Z" },
-  { id: "EVT-000006", type: "USER_REGISTRATION", actor: "inv-004", detail: "Fictional investor Darragh Murphy registered (demo)", at: "2026-09-20T16:45:00Z" },
-  { id: "EVT-000007", type: "ADMIN_CHANGE", actor: "admin", detail: "Limerick milestone 'Illustrative acquisition' marked complete", at: "2026-09-30T09:00:00Z" },
-  { id: "EVT-000008", type: "DOCUMENT_GENERATION", actor: "inv-001", detail: "Demo investment summary generated", at: "2026-10-01T11:22:00Z" },
+type RawEvent = Omit<AuditEvent, "hash" | "prevHash" | "id">;
+const rawEvents: RawEvent[] = [
+  { type: "USER_REGISTRATION", actor: "inv-001", detail: "Fictional investor Aoife Byrne registered (demo)", at: "2026-06-02T10:00:00Z" },
+  { type: "KNOWLEDGE_TEST", actor: "inv-001", detail: "Knowledge test 5/5 — passed (simulated)", at: "2026-07-03T10:05:00Z" },
+  { type: "RISK_ACKNOWLEDGEMENT", actor: "inv-001", detail: "Risk warning acknowledged for Dublin 8 simulation", at: "2026-07-03T10:10:00Z" },
+  { type: "EXTRA_WARNING", actor: "inv-001", detail: "Additional warning shown and acknowledged: €2,500 above €1,000 threshold", at: "2026-07-03T10:10:30Z" },
+  { type: "INVESTMENT_SIMULATION", actor: "inv-001", detail: "Simulated €2,500 into Dublin 8 SPV (sim-0001)", at: "2026-07-03T10:12:00Z" },
+  { type: "LEDGER_EVENT", actor: "system", detail: `Raya Chain ISSUE ${seed.investments[0].txId?.slice(0, 12)}… recorded for sim-0001`, at: "2026-07-03T10:12:01Z" },
+  { type: "KNOWLEDGE_TEST", actor: "inv-002", detail: "Knowledge test 4/5 — passed (simulated)", at: "2026-07-20T09:00:00Z" },
+  { type: "RISK_ACKNOWLEDGEMENT", actor: "inv-002", detail: "Risk warning acknowledged for Cork City simulation", at: "2026-07-20T09:02:00Z" },
+  { type: "EXTRA_WARNING", actor: "inv-002", detail: "Additional warning shown and acknowledged: €5,000 above €3,000 threshold", at: "2026-07-20T09:02:30Z" },
+  { type: "RISK_ACKNOWLEDGEMENT", actor: "inv-003", detail: "Risk warning acknowledged for Dublin 8 simulation (sophisticated, self-certified)", at: "2026-07-11T15:25:00Z" },
+  { type: "KNOWLEDGE_TEST", actor: "inv-005", detail: "Knowledge test 3/5 — failed (simulated)", at: "2026-08-21T17:00:00Z" },
+  { type: "KNOWLEDGE_TEST", actor: "inv-005", detail: "Knowledge test 5/5 — passed (simulated)", at: "2026-08-21T17:08:00Z" },
+  { type: "RISK_ACKNOWLEDGEMENT", actor: "inv-005", detail: "Risk warning acknowledged for Dublin 8 simulation", at: "2026-08-21T17:12:00Z" },
+  { type: "DISTRIBUTION_SIMULATION", actor: "admin", detail: "Simulated Limerick loan interest for 2026-08 — no payments made", at: "2026-08-17T10:00:00Z" },
+  { type: "USER_REGISTRATION", actor: "inv-004", detail: "Fictional investor Darragh Murphy registered (demo)", at: "2026-09-20T16:45:00Z" },
+  { type: "KNOWLEDGE_TEST", actor: "inv-004", detail: "Knowledge test 2/5 — failed (simulated)", at: "2026-09-20T16:55:00Z" },
+  { type: "ADMIN_CHANGE", actor: "admin", detail: "Limerick milestone 'Illustrative acquisition' marked complete", at: "2026-09-30T09:00:00Z" },
+  { type: "DOCUMENT_GENERATION", actor: "inv-001", detail: "Demo investment summary generated", at: "2026-10-01T11:22:00Z" },
 ];
+const rawAudit: Omit<AuditEvent, "hash" | "prevHash">[] = [...rawEvents]
+  .sort((a, b) => a.at.localeCompare(b.at))
+  .map((e, i) => ({ ...e, id: `EVT-${String(i + 1).padStart(6, "0")}` }));
 
 export function chainAudit(events: Omit<AuditEvent, "hash" | "prevHash">[], prev = "00000000"): AuditEvent[] {
   const out: AuditEvent[] = [];

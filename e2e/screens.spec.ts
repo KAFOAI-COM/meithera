@@ -16,19 +16,26 @@ const ROUTES = [
   "/legal/terms",
   "/login",
   "/register",
+  "/chain",
 ];
 
 /** Routes that need a session; screenshotted after logging in as the investor persona. */
-const AUTH_ROUTES = ["/invest", "/invest/prop-d8", "/dashboard", "/dashboard/portfolio", "/dashboard/income", "/dashboard/transactions", "/dashboard/documents", "/dashboard/settings", "/dashboard/tenant"];
+const AUTH_ROUTES = [
+  "/invest", "/invest/prop-d8", "/dashboard", "/dashboard/portfolio", "/dashboard/income", "/dashboard/transactions", "/dashboard/documents", "/dashboard/settings", "/dashboard/tenant",
+  "/supervisor",
+  "/admin/overview", "/admin/properties", "/admin/investors", "/admin/spvs", "/admin/distributions", "/admin/audit-log",
+];
+const personaFor = (route: string) =>
+  route.endsWith("tenant") ? /Continue as Ciara/ : route.startsWith("/supervisor") ? /Continue as Supervisor/ : route.startsWith("/admin") ? /Continue as Administrator/ : /Continue as Aoife/;
 
 /** Routes linked from the shell but built in later sessions. Their prefetch 404s are tolerated until then. */
-const PENDING = ["/chain", "/roadmap", "/regulatory-demo"];
+const PENDING = ["/roadmap", "/regulatory-demo", "/presentation"];
 
 for (const route of [...ROUTES, ...AUTH_ROUTES]) {
   test(`screens ${route}`, async ({ page }, info) => {
     if (AUTH_ROUTES.includes(route)) {
       await page.goto(`/login?next=${encodeURIComponent(route)}`);
-      await page.getByRole("button", { name: route.endsWith("tenant") ? /Continue as Ciara/ : /Continue as Aoife/ }).click();
+      await page.getByRole("button", { name: personaFor(route) }).click();
       await page.waitForURL(`**${route}`);
     }
     const errors: string[] = [];

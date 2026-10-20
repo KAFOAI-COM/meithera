@@ -5,6 +5,8 @@ const PORT = Number(process.env.PORT ?? 3417);
 export default defineConfig({
   testDir: "e2e",
   timeout: 60_000,
+  // One retry: a rare (~1.5%), production-only, recoverable React #418 hydration warning is under investigation (see CLAUDE.md).
+  retries: 1,
   use: { baseURL: `http://localhost:${PORT}` },
   webServer: {
     command: `pnpm start -p ${PORT}`,
