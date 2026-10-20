@@ -1,4 +1,5 @@
 import { AlertTriangle, FlaskConical, Info } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export const RISK_WARNING =
@@ -45,7 +46,27 @@ export function SectionHeading({ eyebrow, title, intro, className, center }: { e
   );
 }
 
-export function PageHeader({ eyebrow, title, intro, children }: { eyebrow?: string; title: string; intro?: string; children?: React.ReactNode }) {
+export function PageHeader({ eyebrow, title, intro, children, image }: { eyebrow?: string; title: string; intro?: string; children?: React.ReactNode; image?: string }) {
+  if (image)
+    return (
+      <section className="relative overflow-hidden bg-emerald text-white">
+        <div className="absolute inset-0 md:left-auto md:w-[55%]">
+          <Image src={image} alt="" fill priority sizes="(min-width: 768px) 55vw, 100vw" className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-emerald/80 to-emerald/95 md:bg-gradient-to-r md:from-emerald md:via-emerald/60 md:to-emerald/10" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
+          {eyebrow ? (
+            <div className="flex items-center gap-3">
+              <span className="h-px w-10 bg-gold" aria-hidden />
+              <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">{eyebrow}</p>
+            </div>
+          ) : null}
+          <h1 className="mt-4 max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight sm:text-6xl">{title}</h1>
+          {intro ? <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/75">{intro}</p> : null}
+          {children}
+        </div>
+      </section>
+    );
   return (
     <section className="border-b border-line bg-card">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">

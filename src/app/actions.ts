@@ -3,10 +3,12 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { encodeSession, SESSION_COOKIE, type DemoSession } from "@/lib/auth";
+import { encodeSession, ROLE_HOME, ROLES, SESSION_COOKIE, type DemoSession, type Role } from "@/lib/auth";
 
-const personas: Record<string, DemoSession> = {
+const personas: Record<Role, DemoSession> = {
   investor: { role: "investor", userId: "inv-001", name: "Aoife Byrne (fictional)" },
+  tenant: { role: "tenant", userId: "ten-001", name: "Ciara Doyle (fictional tenant)" },
+  supervisor: { role: "supervisor", userId: "sup-001", name: "Supervisor (demonstration)" },
   admin: { role: "admin", userId: "admin", name: "Platform administrator (demo)" },
 };
 
@@ -25,10 +27,10 @@ async function setSession(s: DemoSession) {
 }
 
 export async function demoLogin(formData: FormData) {
-  const persona = z.enum(["investor", "admin"]).safeParse(formData.get("persona"));
+  const persona = z.enum(ROLES).safeParse(formData.get("persona"));
   if (!persona.success) redirect("/login?error=invalid");
   await setSession(personas[persona.data]);
-  redirect(safeNext(formData.get("next"), persona.data === "admin" ? "/admin/overview" : "/dashboard"));
+  redirect(safeNext(formData.get("next"), ROLE_HOME[persona.data]));
 }
 
 const registerSchema = z.object({

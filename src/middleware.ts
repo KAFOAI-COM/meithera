@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { PROTECTED } from "@/lib/roles";
 
 const SESSION_COOKIE = "meithera_demo_session";
 const SECRET = process.env.DEMO_SESSION_SECRET ?? "meithera-local-demo-secret";
@@ -26,26 +27,27 @@ async function verify(token?: string): Promise<{ role: string } | null> {
   }
 }
 
+const matches = (pathname: string, prefix: string) => pathname === prefix || pathname.startsWith(`${prefix}/`);
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const rule = PROTECTED.find((r) => matches(pathname, r.prefix));
+  if (!rule) return NextResponse.next();
   const session = await verify(req.cookies.get(SESSION_COOKIE)?.value);
-  const needsAuth = pathname.startsWith("/dashboard") || pathname.startsWith("/invest") || pathname.startsWith("/admin") || pathname.startsWith("/presentation");
-  if (!needsAuth) return NextResponse.next();
+  const url = req.nextUrl.clone();
+  url.pathname = "/login";
   if (!session) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
     url.search = `?next=${encodeURIComponent(pathname)}`;
     return NextResponse.redirect(url);
   }
-  if ((pathname.startsWith("/admin") || pathname.startsWith("/presentation")) && session.role !== "admin") {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
-    url.search = `?next=${encodeURIComponent(pathname)}&error=admin`;
+  if (!(rule.roles as readonly string[]).includes(session.role)) {
+    // e.g. ?error=admin or ?error=supervisor — the login page explains which persona is needed
+    url.search = `?next=${encodeURIComponent(pathname)}&error=${rule.prefix.slice(1)}`;
     return NextResponse.redirect(url);
   }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/invest/:path*", "/admin/:path*", "/presentation/:path*"],
+  matcher: ["/dashboard/:path*", "/invest/:path*", "/admin/:path*", "/presentation/:path*", "/supervisor/:path*"],
 };
