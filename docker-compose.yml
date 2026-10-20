@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: meithera-postgis
+    environment:
+      POSTGRES_USER: meithera
+      POSTGRES_PASSWORD: meithera
+      POSTGRES_DB: meithera
+    ports:
+      - "5432:5432"
+    volumes:
+      - meithera-pgdata:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U meithera -d meithera"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  meithera-pgdata:

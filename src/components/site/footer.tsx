@@ -5,7 +5,7 @@ import { Logo } from "./logo";
 import { RISK_WARNING } from "./notices";
 
 const cols = [
-  { title: "Platform", links: [["/properties", "Properties"], ["/how-it-works", "How it works"], ["/chain", "Raya Chain explorer"], ["/impact", "Impact"], ["/faq", "FAQ"]] },
+  { title: "Platform", links: [["/properties", "Properties"], ["/how-it-works", "How it works"], ["/chain", "Raya Chain explorer"], ["/impact", "Impact"], ["/agents", "AI agents (simulated)"], ["/faq", "FAQ"]] },
   { title: "Regulatory", links: [["/compliance", "Regulatory readiness"], ["/regulatory-demo", "Regulatory demonstration"], ["/roadmap", "Five-stage roadmap"], ["/legal/risk-disclosure", "Risk disclosure"]] },
   { title: "Company", links: [["/about", "About Raya Software"], ["/legal/privacy", "Privacy"], ["/legal/terms", "Terms of use"], ["/login", "Demo log in"]] },
 ];
