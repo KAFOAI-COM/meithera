@@ -2,7 +2,7 @@
 
 Demonstration MVP of a proposed Irish fractional property investment platform (Stake Ireland / Meithera) for the **Central Bank of Ireland Innovation Hub** meeting (late Oct / early Nov 2026).
 
-**Fees / payouts (per Innovation Hub submission):** 1.5% acquisition fee + 0.5%/yr administration fee; illustrative distributions monthly. `finance.ts` still has 1%/yr and seed data quarterly — update. Competitor study: `docs/competitor-analysis.md`. Codex brief: `docs/briefs/03-codex-prompt.md`.
+**Fees / payouts (per Innovation Hub submission):** 1.5% acquisition fee + 0.5%/yr administration fee; illustrative distributions monthly. `finance.ts` still has 1%/yr and seed data quarterly — update. Competitor study: `docs/competitor-analysis.md`. **Current build brief: `docs/briefs/03-claude-code-prompt.md`** (full-vision demo, 5 stages, Raya Chain, supervisor view) — it supersedes the 'Remaining work' list below where they differ. Meeting: Tue 27 Oct 2026.
 
 **Read first:** `docs/briefs/01-master-prompt.md` (full spec, routes, sections), `docs/briefs/02-mvp-brief.md` (second brief: Prisma + PostgreSQL/PostGIS, pitch-deck content), `PROJECT_PLAN.md`, `ARCHITECTURE.md`, `REGULATORY_ASSUMPTIONS.md`.
 
@@ -10,7 +10,8 @@ Demonstration MVP of a proposed Irish fractional property investment platform (S
 
 - Demonstration only: no real payments, tokens, KYC, distributions. Every property/figure is fictional and labelled *illustrative*.
 - Never claim Central Bank approval/authorisation/regulation. Use "proposed", "subject to regulatory assessment".
-- Investors hold an SPV instrument, **not** legal title. Token ≠ legal ownership.
+- Investors hold an SPV instrument, **not** legal title. Token ≠ legal ownership. Approved wording: "blockchain-based fractional ownership of property companies".
+- Every feature carries a stage badge (0 Demo · 1 Lending · 2 Rent share · 3 Tenant to owner · 4 Internet of Value); never present stages 1–4 as live.
 - Property-level net operating yield ≠ investor return. Always show gross → net with fees; income is "before investor-level taxes".
 - Don't invent real addresses. Geo points are **area centroids** only.
 - No sensitive data in browser storage. Demo store = fictional data in `sessionStorage`.
