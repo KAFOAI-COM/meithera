@@ -78,18 +78,20 @@ export interface SimInvestment {
   createdAt: string;
   ref: string; // simulated ledger reference
   status: "Simulated" | "Seed";
+  txId?: string; // Raya Chain ISSUE tx recording this holding
 }
 
 export interface DistributionRun {
   id: string;
   propertyId: string;
-  period: string; // "2026-Q3"
+  kind: "rent" | "interest"; // Stage 2 rent distribution or Stage 1 loan interest
+  period: string; // monthly, e.g. "2026-10"
   rentalIncome: number;
   expenses: number;
   mgmtFee: number;
   distributable: number;
   createdAt: string;
-  allocations: { investorId: string; amount: number }[];
+  allocations: { investorId: string; amount: number; txId?: string }[];
 }
 
 export type AuditType =
@@ -123,6 +125,7 @@ export interface ChainTx {
   units?: number;
   amount?: number; // EUR (simulated)
   memo: string;
+  reason?: string; // reason code for FREEZE / CORRECTION / REJECTED
   at: string;
   block: number;
 }

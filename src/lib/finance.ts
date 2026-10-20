@@ -127,6 +127,11 @@ export function loanFacility(p: Property) {
   return Math.min(totalCost(p), Math.round((p.valuation * p.loan.ltvPct) / 100 / 1000) * 1000);
 }
 
+/** Size of the offer an investor participates in: the loan facility (Stage 1) or total project cost (Stage 2). */
+export function offerSize(p: Property) {
+  return p.offerType === "loan" ? loanFacility(p) : totalCost(p);
+}
+
 export interface ModelInputs {
   acquisition: number;
   refurbishment: number;

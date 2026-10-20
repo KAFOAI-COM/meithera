@@ -17,11 +17,11 @@ export function pct(n: number, decimals = 2) {
 }
 
 export function shortDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "short", year: "numeric" });
+  return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Dublin" });
 }
 
 export function dateTime(iso: string) {
-  return new Date(iso).toLocaleString("en-IE", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleString("en-IE", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Dublin" });
 }
 
 /** Deterministic short hash (FNV-1a) used for simulated transaction references. Not cryptographic. */
@@ -37,4 +37,9 @@ export function fnv(input: string) {
 export function uid(prefix: string) {
   const rnd = Math.random().toString(36).slice(2, 8).toUpperCase();
   return `${prefix}-${Date.now().toString(36).toUpperCase().slice(-5)}${rnd}`;
+}
+
+/** Shortened hash for display, e.g. 0x3f9a…c21e. */
+export function shortHash(h: string, head = 6, tail = 4) {
+  return h.length <= head + tail + 1 ? h : `${h.slice(0, head)}…${h.slice(-tail)}`;
 }

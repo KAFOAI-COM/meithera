@@ -44,24 +44,27 @@
   --shadow-raised: 0 2px 4px rgba(6, 63, 54, 0.08), 0 12px 32px rgba(6, 63, 54, 0.1);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Base element styles live in the base layer so Tailwind utilities (e.g. font-serif on headings) win. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  background: var(--surface-100);
-  color: var(--ink);
-  font-family: var(--font-text), Inter, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    background: var(--surface-100);
+    color: var(--ink);
+    font-family: var(--font-text), Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 
-h1, h2, h3, h4, h5, label, button, th {
-  font-family: var(--font-manrope), Inter, system-ui, sans-serif;
-}
+  h1, h2, h3, h4, h5, label, button, th {
+    font-family: var(--font-manrope), Inter, system-ui, sans-serif;
+  }
 
-:focus-visible {
-  outline: 2px solid var(--brand-forest);
-  outline-offset: 2px;
+  :focus-visible {
+    outline: 2px solid var(--brand-forest);
+    outline-offset: 2px;
+  }
 }
 
 .tabular {

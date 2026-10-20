@@ -31,7 +31,7 @@ export function IrelandMap({ points }: { points: { id: string; label: string; la
           <g key={pt.id}>
             <circle cx={p.x} cy={p.y} r="10" fill="#c7a86d" opacity="0.3" />
             <circle cx={p.x} cy={p.y} r="4.5" fill="#063f36" stroke="#fff" strokeWidth="1.5" />
-            <text x={p.x + 8} y={p.y - 6} fontSize="10" fontWeight="600" fill="#172521" fontFamily="var(--font-manrope), sans-serif">{pt.label}</text>
+            <text x={p.x > W - 60 ? p.x - 8 : p.x + 8} y={p.y - 6} textAnchor={p.x > W - 60 ? "end" : "start"} fontSize="10" fontWeight="600" fill="#172521" fontFamily="var(--font-manrope), sans-serif">{pt.label}</text>
           </g>
         );
       })}
