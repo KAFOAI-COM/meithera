@@ -1,11 +1,30 @@
 # Deployment
 
+## Live demo (deployed 20 Oct 2026, build `v0.1-cbi`)
+
+| | |
+|---|---|
+| Custom domain | **https://meithera.omnirisk.io** |
+| Vercel URL | https://meithera.vercel.app |
+| Vercel project | `meithera` (team `lasttable`), Next.js preset, Node 24 |
+| DNS | `omnirisk.io` is registered in Route 53, but its **nameservers are Cloudflare** — DNS records live in Cloudflare, not the Route 53 hosted zone |
+| Record | `CNAME meithera → e65d67235c622866.vercel-dns-016.com`, proxy **DNS only** (Vercel issues the TLS certificate) |
+
+To redeploy the current `main` from a clean export:
+
+```bash
+git archive -o /tmp/meithera.tar main && mkdir -p /tmp/meithera && tar -xf /tmp/meithera.tar -C /tmp/meithera
+cd /tmp/meithera && vercel link --yes --project meithera && vercel deploy --prod --yes
+```
+
+Not yet configured: the Git integration (connect `baz2024/meithera` in Project → Settings → Git for automatic deploys) and `DEMO_SESSION_SECRET` (without it the public demo uses the built-in demo secret; only fictional personas are affected).
+
 ## Meeting laptop (recommended for 27 Oct 2026)
 
 ```bash
 pnpm install
 pnpm build
-pnpm start          # http://localhost:3000
+pnpm start          # http://localhost:3000  (if the port is busy: pnpm start -p 3001)
 ```
 
 No environment variables, no database, no network after `pnpm install`. Fonts are bundled at build time. Log in as **Administrator** and open **Launch Regulatory Presentation**.
