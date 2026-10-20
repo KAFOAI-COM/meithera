@@ -2,7 +2,7 @@
 
 Demonstration MVP of a proposed Irish fractional property investment platform (Stake Ireland / Meithera) for the **Central Bank of Ireland Innovation Hub** meeting (late Oct / early Nov 2026).
 
-**Fees / payouts (per Innovation Hub submission):** 1.5% acquisition fee + 0.5%/yr administration fee; illustrative distributions monthly. `finance.ts` still has 1%/yr and seed data quarterly — update. Competitor study: `docs/competitor-analysis.md`. **Current build brief: `docs/briefs/03-claude-code-prompt.md`** (full-vision demo, 5 stages, Raya Chain, supervisor view) — it supersedes the 'Remaining work' list below where they differ. Meeting: Tue 27 Oct 2026.
+**Fees / payouts (per Innovation Hub submission):** 1.5% acquisition fee + 0.5%/yr administration fee; illustrative distributions monthly. Done in `finance.ts` (`FEES.annualAdminPct`, `illustrateLoan`, `loanFacility`, `headlineRate`, `staircase`); seed data monthly; Raya Chain simulator in `src/lib/chain/raya.ts`; Pexels photos in `public/images/`. Competitor study: `docs/competitor-analysis.md`. **Build schedule: `docs/briefs/04-mega-plan.md` (7 daily sessions).** **Current build brief: `docs/briefs/03-claude-code-prompt.md`** (full-vision demo, 5 stages, Raya Chain, supervisor view) — it supersedes the 'Remaining work' list below where they differ. Meeting: Tue 27 Oct 2026.
 
 **Read first:** `docs/briefs/01-master-prompt.md` (full spec, routes, sections), `docs/briefs/02-mvp-brief.md` (second brief: Prisma + PostgreSQL/PostGIS, pitch-deck content), `PROJECT_PLAN.md`, `ARCHITECTURE.md`, `REGULATORY_ASSUMPTIONS.md`.
 
