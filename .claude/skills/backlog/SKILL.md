@@ -1,6 +1,6 @@
 ---
 name: backlog
-description: Turn selected or pasted text (a meeting note, a sprint checklist line, a bug report, a stray idea) into a GitHub issue on baz2024/meithera with an epic, sprint, priority, acceptance criteria, an optional assignee and a Meithera Project link. Use this whenever the user says /backlog, "add this to the backlog", "make an issue for this", "ticket this", "log this for later", or pastes a to-do and asks where it should go, even if they do not say "issue" or "GitHub".
+description: Turn selected or pasted text (a meeting note, a sprint checklist line, a bug report, a stray idea) into a GitHub issue on the Meithera repository (KAFOAI-COM/meithera, formerly baz2024/meithera) with an epic, sprint, priority, acceptance criteria, an optional assignee and a Meithera Project link. Use this whenever the user says /backlog, "add this to the backlog", "make an issue for this", "ticket this", "log this for later", or pastes a to-do and asks where it should go, even if they do not say "issue" or "GitHub".
 ---
 
 # /backlog — text to GitHub issue
@@ -14,8 +14,10 @@ owner, the intended action or the target repository is genuinely unclear. Never 
 assignee, and never say an issue was assigned or added to a project unless the script
 printed that GitHub confirmed it.
 
-Script: `.claude/skills/backlog/scripts/backlog.sh` (needs `gh` logged in; repository
-defaults to `baz2024/meithera`, override with `BACKLOG_REPO=owner/name`).
+Script: `.claude/skills/backlog/scripts/backlog.sh` (needs `gh` logged in). It targets
+the current checkout's repository as GitHub knows it today (the repo started as
+`baz2024/meithera` and now lives at `KAFOAI-COM/meithera`); override with
+`BACKLOG_REPO=owner/name`.
 
 ## 1. Read the text and draft the issue
 
@@ -59,7 +61,7 @@ is a doc. The script creates missing `epic:*`, `sprint:*` and `P*` labels on fir
 `ok` means a repository collaborator. `invalid` means GitHub does not know that login as a
 collaborator: do not guess a similar name, do not assign; tell the user the login was not
 valid and offer the collaborators the script can see
-(`gh api repos/baz2024/meithera/collaborators --jq '.[].login'`). A bare first name such
+(`gh api repos/{owner}/{repo}/collaborators --jq '.[].login'`). A bare first name such
 as `@basel` is not a GitHub login unless it validates.
 
 ## 4. Check for duplicates
@@ -119,8 +121,8 @@ Report, in this order and nothing more:
 
 **Example reply**
 
-> Created https://github.com/baz2024/meithera/issues/12
+> Created https://github.com/KAFOAI-COM/meithera/issues/12
 > Title: Add borrower-default scenario to Stage 1 worked example
 > epic:finance-model · sprint:2026-10-readiness · P0
 > Assignment: assigned to rashedalketbi (confirmed by GitHub)
-> Project: not configured (no project titled 'Meithera' for baz2024)
+> Project: not configured (no project titled 'Meithera' for KAFOAI-COM)

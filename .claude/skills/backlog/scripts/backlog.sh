@@ -8,7 +8,10 @@
 #   backlog.sh create --title "..." --body-file path [--label L]... [--assignee login] [--dry-run]
 set -euo pipefail
 
-REPO="${BACKLOG_REPO:-baz2024/meithera}"
+# Repository: BACKLOG_REPO, else the canonical name of the current checkout (follows GitHub
+# renames/transfers, e.g. baz2024/meithera -> KAFOAI-COM/meithera), else the historical default.
+REPO="${BACKLOG_REPO:-$(gh repo view --json nameWithOwner --jq .nameWithOwner 2>/dev/null || true)}"
+REPO="${REPO:-baz2024/meithera}"
 OWNER="${REPO%%/*}"
 
 die() { echo "error: $*" >&2; exit 1; }
