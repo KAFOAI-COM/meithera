@@ -99,6 +99,6 @@ describe("portfolio maths", () => {
   it("Aoife's seed holdings and received interest add up", () => {
     const h = holdingsFor("inv-001", s().investments, s().properties, s().chain.txs);
     expect(h.reduce((a, x) => a + x.sim.amount, 0)).toBe(3500);
-    expect(h.reduce((a, x) => a + x.received, 0)).toBeCloseTo(3 * ((985 * 0.08 - 985 * 0.005) / 12), 6);
+    expect(h.reduce((a, x) => a + x.received, 0)).toBeCloseTo(3 * ((985 * 0.09 - 985 * 0.005) / 12), 6);
   });
 });

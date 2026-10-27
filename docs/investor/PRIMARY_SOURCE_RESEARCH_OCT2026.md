@@ -16,7 +16,7 @@ Full old → new register with sources and periods: `STATISTICS_UPDATE_2026.md`.
 - AIFs broadly involve raising capital from multiple investors for investment under a defined policy. One-property-per-SPV does not alone eliminate AIF classification. https://www.centralbank.ie/regulation/industry-market-sectors/funds/aifs
 
 ## Financial assumptions, not market evidence
-- €160,000 principal × 7.5% nominal annual interest = €12,000 annual interest; 18 months = €18,000 interest if fully performing and calculated on simple interest basis. Excludes investor fees, tax, defaults and enforcement.
+- €160,000 principal × 8% nominal annual interest (raised from 7.5%, Oct 2026) = €12,800 annual interest; 18 months = €19,200 interest if fully performing and calculated on simple interest basis. Excludes investor fees, tax, defaults and enforcement.
 - 1.5% gross fee on a €100 ticket = €1.50, not net platform margin.
 - Market size, investor conversion, signed property pipeline, customer acquisition cost, licensed partnerships and fundraising valuation **not validated**.
 

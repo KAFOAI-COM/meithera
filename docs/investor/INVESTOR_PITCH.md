@@ -8,7 +8,7 @@ Ireland faces housing supply and refurbishment challenges. Meithera proposes a t
 An investor-facing marketplace, regulated-partner-led transaction flow, clear disclosures, and a verifiable audit record. Starting investment €100 is a **product hypothesis**, not a validated commercially sustainable minimum.
 
 ## 3. The first wedge
-Stage 1: secured lending to vetted refurbishment project owners, potentially via an authorised EU crowdfunding service provider (ECSP), subject to legal classification. Illustrative deal: €160,000, 7.5% per annum, 18 months, with security trustee and independently verified property valuation. **Not an offer.**
+Stage 1: secured lending to vetted refurbishment project owners, potentially via an authorised EU crowdfunding service provider (ECSP), subject to legal classification. Illustrative deal: €160,000, 8% per annum, 18 months, with security trustee and independently verified property valuation. **Not an offer.**
 
 ## 4. Customer journey
 Browse project → understand risks and terms → eligibility / onboarding with responsible authorised entity → KIIS and warnings where applicable → commitment through regulated payments → servicing and reporting. All currently simulated.

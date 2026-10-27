@@ -97,7 +97,7 @@ export function buildProperty(v: PropertyCreate, template: Property, n: number):
     id: `prop-${slug}`,
     slug,
     offerType: v.offerType,
-    loan: v.offerType === "loan" ? { ratePct: 7.5, months: 18, ltvPct: 60, security: "First legal charge (proposed)" } : undefined,
+    loan: v.offerType === "loan" ? { ratePct: 8, months: 18, ltvPct: 60, security: "First legal charge (proposed)" } : undefined,
     title: `${v.location} — ${v.type}`,
     location: v.location,
     county: v.county,

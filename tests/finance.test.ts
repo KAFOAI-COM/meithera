@@ -43,14 +43,14 @@ describe("Dublin 8 rent share, per €1,000", () => {
 });
 
 describe("Stage 1 loan maths", () => {
-  const l = illustrateLoan(1000, 7.5, 18, loanFacility(cork));
+  const l = illustrateLoan(1000, 8, 18, loanFacility(cork));
   it("pays fixed monthly interest net of the admin fee", () => {
     expect(l.netLent).toBeCloseTo(985, 10);
-    expect(l.monthlyInterest).toBeCloseTo((985 * 0.075) / 12, 10); // €6.16
+    expect(l.monthlyInterest).toBeCloseTo((985 * 0.08) / 12, 10); // €6.57
     expect(l.adminFeeMonthly).toBeCloseTo((985 * 0.005) / 12, 10); // €0.41
     expect(l.monthlyNet).toBeCloseTo(l.monthlyInterest - l.adminFeeMonthly, 10);
-    expect(l.totalInterest).toBeCloseTo(110.8125, 6);
-    expect(eur(l.monthlyNet, 2)).toBe("€5.75");
+    expect(l.totalInterest).toBeCloseTo(118.2, 6);
+    expect(eur(l.monthlyNet, 2)).toBe("€6.16");
   });
   it("returns principal only at maturity", () => {
     expect(l.schedule).toHaveLength(18);
@@ -63,7 +63,7 @@ describe("Stage 1 loan maths", () => {
     expect(l.participation).toBeCloseTo(985 / 162000, 12);
     expect(offerSize(cork)).toBe(loanFacility(cork));
     expect(offerSize(d8)).toBe(totalCost(d8));
-    expect(headlineRate(cork)).toBe(0.075);
+    expect(headlineRate(cork)).toBe(0.08);
   });
 });
 
