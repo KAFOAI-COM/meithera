@@ -21,21 +21,21 @@ describe("fees", () => {
 describe("Dublin 8 rent share, per €1,000", () => {
   const r = illustrate(d8, 1000);
   it("walks gross to net", () => {
-    expect(totalCost(d8)).toBe(290000);
+    expect(totalCost(d8)).toBe(372000);
     expect(r.entryFee).toBeCloseTo(15, 10);
     expect(r.netInvested).toBeCloseTo(985, 10);
-    expect(r.noiShare).toBeCloseTo(61.14, 2);
+    expect(r.noiShare).toBeCloseTo(53.09, 2);
     expect(r.adminFee).toBeCloseTo(4.925, 10);
-    expect(r.annualIncome).toBeCloseTo(56.21, 2);
-    expect(r.monthlyIncome).toBeCloseTo(56.21 / 12, 2);
+    expect(r.annualIncome).toBeCloseTo(48.16, 2);
+    expect(r.monthlyIncome).toBeCloseTo(48.16 / 12, 2);
   });
   it("formats money with Intl, not toFixed", () => {
     expect(eur(r.netInvested, 2)).toBe("€985.00");
     expect(eur(r.adminFee, 2)).toBe("€4.93");
-    expect(eur(r.annualIncome, 2)).toBe("€56.21");
+    expect(eur(r.annualIncome, 2)).toBe("€48.16");
   });
-  it("property yield is 6.21% and is not the investor return", () => {
-    expect(netOperatingYield(d8)).toBeCloseTo(0.0621, 4);
+  it("property yield is 5.39% and is not the investor return", () => {
+    expect(netOperatingYield(d8)).toBeCloseTo(0.0539, 4);
     expect(r.propertyYield).toBe(netOperatingYield(d8));
     expect(r.investorYield).toBeLessThan(r.propertyYield);
     expect(headlineRate(d8)).toBe(netOperatingYield(d8));

@@ -11,7 +11,7 @@ test.describe("investor journey", () => {
 
     // Step 2 — amount (default €1,000)
     await expect(page.getByRole("heading", { name: /How much would you invest/ })).toBeVisible();
-    await expect(page.getByText("€4.68").first()).toBeVisible();
+    await expect(page.getByText("€4.01").first()).toBeVisible();
     await page.getByRole("button", { name: /Continue to onboarding/ }).click();
 
     // Step 3 — simulated onboarding

@@ -50,12 +50,12 @@ export const SLIDES: Slide[] = [
     stage: 0,
     body: (
       <div className="grid gap-4 sm:grid-cols-3">
-        <Stat big="~166,000" small="vacant dwellings counted in Census 2022 (CSO) — homes that exist but house nobody." />
-        <Stat big="Record rents" small="Standardised rents at historic highs (RTB rent index); affordability for first-time buyers at a low." />
-        <Stat big="Small savers" small="Property wealth is built by those who can already buy. Everyone else pays rent to them." />
+        <Stat big="163,433" small="vacant dwellings in Census 2022, the latest census (CSO final results; next census 2027) — homes that exist but house nobody." />
+        <Stat big="+9.1%" small="a year in the average rent for new tenancies, now €1,839 a month (RTB Rent Index, Q1 2026)." />
+        <Stat big="€400,000" small="national median home price, 12 months to Aug 2026, up 5.1% (CSO). Property wealth is built by those who can already buy." />
       </div>
     ),
-    notes: "Open on the human problem. Three facts, no jargon. We are not here to sell a token; we are here to add housing supply and let ordinary people take part. Cite the Census figure and the RTB index; do not quote precise rent euros.",
+    notes: "Open on the human problem. Three facts, no jargon. We are not here to sell a token; we are here to add housing supply and let ordinary people take part. Each figure is the latest official one, with its period: Census 2022 is still the latest census count (CSO metered-electricity data counts 70,149 long-term vacant in Q4 2024, a narrower measure); RTB Q1 2026 is the latest rent index; CSO RPPI August 2026. Do not call rents a record: the RTB report does not.",
   },
   {
     id: "mission",
@@ -200,7 +200,7 @@ export const SLIDES: Slide[] = [
         </div>
       </div>
     ),
-    notes: "The fee stack is the honesty test: 6.21% property yield becomes 5.62% for the investor before tax. The two open legal questions are whether a per-home company is an AIF, and whether the note is a MiFID instrument. We are not pre-judging either.",
+    notes: "The fee stack is the honesty test: 5.39% property yield becomes 4.82% for the investor before tax. The two open legal questions are whether a per-home company is an AIF, and whether the note is a MiFID instrument. We are not pre-judging either.",
   },
   {
     id: "tenant",

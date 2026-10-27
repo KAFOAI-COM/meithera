@@ -80,7 +80,7 @@ describe("demo store writes every action to Raya Chain", () => {
     expect(s().votes["inv-001:prop-d8"]).toBe("against");
     s().postToBulletin("inv-001", "prop-d8", 100, 1.02);
     expect(s().bulletin[0]).toMatchObject({ units: 100, askPerUnit: 1.02 });
-    const step = s().recordStaircaseStep("ten-001", "prop-d8", 0, 0.1, 29000);
+    const step = s().recordStaircaseStep("ten-001", "prop-d8", 0, 0.1, 37200);
     expect(s().chain.txs.find((t) => t.txId === step.txId)).toMatchObject({ type: "TRANSFER", reason: "STAIRCASE", to: pseudonym("ten-001") });
     expect(verifyChain(s().chain).ok).toBe(true);
   });

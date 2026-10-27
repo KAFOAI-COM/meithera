@@ -36,13 +36,13 @@ Investor ──► Profit-participating note ──► Home’s company (Irish D
 | Amount entered | 1,000.00 |
 | Less acquisition fee 1.5% | −15.00 |
 | Net invested | 985.00 |
-| Share of gross rent (985 / 290,000 × 24,000) | 81.52 |
-| Less share of operating costs | −20.38 |
-| Share of net operating income | 61.14 |
+| Share of gross rent (985 / 372,000 × 26,400) | 69.90 |
+| Less share of operating costs | −16.81 |
+| Share of net operating income | 53.09 |
 | Less administration fee 0.5% of 985 | −4.93 |
-| **Illustrative annual income (before tax)** | **56.21** (≈ €4.68 a month) |
+| **Illustrative annual income (before tax)** | **48.16** (≈ €4.01 a month) |
 
-Property-level NOI yield 6.21% → investor-level 5.62%. Unit-tested in `tests/finance.test.ts`.
+Property-level NOI yield 5.39% → investor-level 4.82%. Inputs recalibrated to 2026 market data (Oct 2026): see `docs/investor/STATISTICS_UPDATE_2026.md`. Unit-tested in `tests/finance.test.ts`.
 
 ## Stage 3 · Tenant to owner (requires further authorisation)
 

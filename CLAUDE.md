@@ -56,7 +56,7 @@ Colours: emerald `#063F36`, forest `#0D6656`, mint `#DDF3E8`, off-white `#F8FAF8
 7. **Presentation:** `/presentation` full-screen, 10 slides (overview, housing problem, marketplace, simulation, SPV, money flows, blockchain, protections, regulatory questions, proposed pilot), Previous/Next/Exit, progress bar, arrow-key nav, no external APIs.
 8. **Database:** `prisma/schema.prisma` (PostgreSQL + `postgis` extension via `previewFeatures = ["postgresqlExtensions"]`; `location Unsupported("geography(Point,4326)")`; County with boundary `geography(MultiPolygon,4326)`), `prisma/seed.ts` reusing `src/lib/data`, raw SQL for `ST_SetSRID(ST_MakePoint(lng,lat),4326)`, `docker-compose.yml` with `postgis/postgis:16-3.4`, `supabase/migrations/*_rls.sql`, `.env.example`. App must still run with no DB.
 9. **Docs:** `README.md`, `docs/product-requirements.md`, `docs/technical-architecture.md`, `docs/investment-structure.md`, `docs/regulatory-questions.md`, `docs/blockchain-architecture.md` (8 topics from brief §12), `docs/demo-script.md` (7–10 min Central Bank walkthrough), `docs/deployment.md`, `docs/pitch-deck-content.md`.
-10. **QA:** `tsc`, `pnpm lint`, `pnpm build`, unit tests for finance (e.g. Dublin 8 per €1,000: net invested €985, NOI share €61.14, admin fee 0.5% = €4.925, income €56.21; yield 6.21%), Playwright smoke over every route at desktop + 390px mobile.
+10. **QA:** `tsc`, `pnpm lint`, `pnpm build`, unit tests for finance (e.g. Dublin 8 per €1,000: net invested €985, NOI share €53.09, admin fee 0.5% = €4.925, income €48.16; yield 5.39% — 2026 recalibration, see `docs/investor/STATISTICS_UPDATE_2026.md`), Playwright smoke over every route at desktop + 390px mobile.
 
 ## Commands
 

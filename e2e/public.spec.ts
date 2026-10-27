@@ -32,9 +32,9 @@ test.describe("public site journeys", () => {
   test("calculator recomputes gross to net from finance.ts", async ({ page }) => {
     await page.goto("/properties/dublin-8-two-bed#calculator");
     const calc = page.locator("#calculator");
-    await expect(calc).toContainText("€56.21"); // €1,000 default → €56.21 a year
+    await expect(calc).toContainText("€48.16"); // €1,000 default → €48.16 a year
     await calc.getByRole("button", { name: "€10,000" }).click();
-    await expect(calc).toContainText("€562.13");
+    await expect(calc).toContainText("€481.64");
     await expect(calc).toContainText("€150.00"); // 1.5% acquisition fee
   });
 
