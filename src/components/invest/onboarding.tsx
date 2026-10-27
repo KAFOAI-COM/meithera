@@ -22,7 +22,7 @@ export const NET_WORTH_BANDS: NetWorthBand[] = [
 export const QUIZ = [
   { q: "If the project goes badly, what could happen to the money you put in?", options: ["I could lose some or all of it", "The State would repay me", "Meithera guarantees it"], correct: 0 },
   { q: "Can you get your money back whenever you want?", options: ["Yes, at any time", "No — I may have to hold until maturity or a sale", "Yes, after one month"], correct: 1 },
-  { q: "A property shows a 6.21% net operating yield. Is that your return?", options: ["Yes, exactly", "No — fees and taxes reduce what I receive, and it isn’t guaranteed"], correct: 1 },
+  { q: "A property shows a 5.39% net operating yield. Is that your return?", options: ["Yes, exactly", "No — fees and taxes reduce what I receive, and it isn’t guaranteed"], correct: 1 },
   { q: "In a Stage 2 rent share, what would you hold?", options: ["A share of the house’s title deeds", "Notes in the company that owns the home", "A cryptocurrency"], correct: 1 },
   { q: "Is this covered by the Deposit Guarantee Scheme?", options: ["Yes, up to €100,000", "No"], correct: 1 },
 ];
