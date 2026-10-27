@@ -12,7 +12,7 @@ Meithera lets ordinary people fund the refurbishment of vacant homes from €100
 0 Demo (today) → 1 Lending (possible under ECSPR) → 2 Rent share (possible under ECSPR) → 3 Tenant to owner (requires further authorisation) → 4 Internet of Value (depends on EU reform).
 
 ## 4 · Live: an investor funds a vacant home — Stage 1
-Cork terrace, vacant since 2019. €160,000 secured loan, 7.5% fixed, 18 months, first legal charge, borrower pays the fee. Per €1,000 lent: €6.25 a month, €112.50 total interest, principal at term, lender fee €0. Journey: amount → onboarding (ID, AML, classification, 5-question test, loss simulation) → risk acknowledgement (+ €1,000/5% warning) → review (KIIS, 4-day reflection) → confirmation on Raya Chain.
+Cork terrace, vacant since 2019. €160,000 secured loan, 8% fixed, 18 months, first legal charge, borrower pays the fee. Per €1,000 lent: €6.67 a month, €120.00 total interest, principal at term, lender fee €0. Journey: amount → onboarding (ID, AML, classification, 5-question test, loss simulation) → risk acknowledgement (+ €1,000/5% warning) → review (KIIS, 4-day reflection) → confirmation on Raya Chain.
 
 ## 5 · Live: the Raya Chain record — Stage 2
 One master record. Rules travel with the asset (allowlist; reason-coded freeze and correction). Proofs travel, the record doesn’t (anchors to Chain B/C). Verify chain in the browser. A bank’s audit console, not a trading explorer.

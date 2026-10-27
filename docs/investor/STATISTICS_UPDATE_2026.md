@@ -108,12 +108,26 @@ The loan facility, rate and repayments are unchanged, so the seeded chain is unc
 - Rent €2,100 against a Galway City average of €2,004 (central €2,154); valuation €320,000 against a city median of €402,500.
 - These are plausible for a 2-bedroom apartment.
 
-## 4. ⚠️ Flagged: kept as they are, needs a decision
+## 4. Loan rates: raised on 27 Oct 2026
 
-- **Loan rates (Cork 7.5%, Limerick 8%):** there is no primary source for Irish crowdfunding or bridging-loan rates.
-  - Context: ECB rates rose twice in 2026. The deposit rate has been 2.50% since 16 Sep 2026 (https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html, Verified).
-  - The average Irish new mortgage rate was 3.53% in Aug 2026 (Central Bank retail interest rates, Verified).
-  - The illustrative coupons remain plausible above these. The next ECB decision is 29 Oct 2026.
+- **Old:** Cork 7.5%, Limerick 8%.
+- **New:** Cork **8.0%**, Limerick **9.0%**.
+- **Effect per €1,000 lent (Cork):**
+  - Net monthly payment: €5.75 → **€6.16**
+  - Total interest over 18 months: €110.81 → **€118.20**
+- **Effect on the whole Cork loan (€160k, as quoted in the docs):** €12,000 → **€12,800 a year**.
+- **How the rates were set:** each is a margin above market rates, not a quoted market rate. Limerick carries about 1 point more than Cork because it is derelict, has a 24-month term and is rated high risk.
+- **Market rates (Verified):**
+  - ECB deposit rate: 2.50% since 16 Sep 2026, after two rises in 2026. https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html
+  - 3-month Euribor: about 2.67% on 23 Oct 2026.
+  - Average Irish new mortgage rate: 3.53% in Aug 2026 (Central Bank retail interest rates).
+  - The next ECB decision is on 29 Oct 2026.
+- **Platform comparisons (third-party, not 2026 official data):**
+  - Estateguru: average return on repaid loans of 8.9% in 2025, as reported by the platform. https://www.crowdfundinsider.com/?p=258300
+  - Property Bridges (Ireland): historically 8%–9.5% to investors (2019–2020 press). https://www.longfordleader.ie/news/peer-to-peer-lending-offers-alternative-for-investors-7990901
+- **⚠️ No official 2026 source exists** for Irish crowdfunding or bridging-loan rates. The rates are labelled illustrative.
+
+## 5. Other checks
 - **Model scenarios** (`SCENARIOS` in `src/lib/finance.ts`: optimistic rent +5%, downside rent −10%) are stress settings, not market statistics, so they are unchanged.
   - Since 1 Mar 2026, rent increases within a tenancy are capped at the lower of 2% or CPI. CPI was 4.1% in Sep 2026, so the 2% cap applies.
   - The model applies no annual rent growth, so this is consistent.

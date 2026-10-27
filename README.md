@@ -15,7 +15,7 @@ Irish people can’t afford to buy, rents are punishing, and thousands of homes 
 | Stage | Name | Legal basis | What the demo shows |
 |---|---|---|---|
 | 0 | Demo | Everything simulated | This site |
-| 1 | Lending | Possible under ECSPR (partner first) | Secured loans from €100, 7.5–8% fixed, 18–24 months, LTV ≤ 62% — Cork, Limerick |
+| 1 | Lending | Possible under ECSPR (partner first) | Secured loans from €100, 8–9% fixed, 18–24 months, LTV ≤ 62% — Cork, Limerick |
 | 2 | Rent share | Possible under ECSPR | Notes in a per-home company, monthly income, exit vote, bulletin board — Dublin 8, Galway |
 | 3 | Tenant to owner | Requires further authorisation | Staircasing simulator (`/dashboard/tenant`) |
 | 4 | Internet of Value | Future — depends on EU reform | Raya Chain as official register, anchors to other chains, euro stablecoin payouts |

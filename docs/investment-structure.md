@@ -9,7 +9,7 @@ Lender (from €100) ──► Secured loan note ──► Borrower / project ow
                        first legal charge held by a security trustee
 ```
 
-- Fixed rate (illustrative 7.5% p.a.), 12–24 months, interest paid monthly, principal at term (bullet).
+- Fixed rate (illustrative 8–9% p.a.), 12–24 months, interest paid monthly, principal at term (bullet).
 - Loan-to-value ≤ 65% of the illustrative valuation.
 - The **borrower pays the 1.5% arrangement fee**; nothing is deducted from lenders.
 - Lenders hold a participation in a loan — not shares, not notes, not property.

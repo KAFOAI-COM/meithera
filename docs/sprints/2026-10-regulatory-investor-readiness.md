@@ -9,7 +9,7 @@
 - [ ] Build an ECSPR / MiFID II / AIFMD decision tree, including partner-led route and regulated-activity ownership.
 - [ ] Make four classification questions prominent; do not imply one-SPV-per-home avoids AIF classification.
 - [ ] Add client-money, security-trustee, borrower-default and investor-wind-down diagrams.
-- [ ] Validate the Stage 1 worked example: €160k loan, 7.5% annual, 18 months, repayment/refinance and default scenarios.
+- [ ] Validate the Stage 1 worked example: €160k loan, 8% annual, 18 months, repayment/refinance and default scenarios.
 - [ ] Correct investment return UX: separate projected yield, fees, company tax, investor tax, vacancies, capital loss and liquidity.
 - [ ] Create a clear regulator demo click-path with a 7-minute run-through and fallback screenshots.
 - [ ] Update competition and evidence tables; flag unverified third-party claims.
