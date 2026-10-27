@@ -50,12 +50,12 @@ export const SLIDES: Slide[] = [
     stage: 0,
     body: (
       <div className="grid gap-4 sm:grid-cols-3">
-        <Stat big="163,433" small="vacant dwellings in Census 2022, the latest census (CSO final results; next census 2027) — homes that exist but house nobody." />
+        <Stat big="81,373" small="vacant homes, plus 19,137 derelict, in Ireland in June 2026 (GeoDirectory Residential Buildings Report, Q2 2026) — homes that exist but house nobody." />
         <Stat big="+9.1%" small="a year in the average rent for new tenancies, now €1,839 a month (RTB Rent Index, Q1 2026)." />
         <Stat big="€400,000" small="national median home price, 12 months to Aug 2026, up 5.1% (CSO). Property wealth is built by those who can already buy." />
       </div>
     ),
-    notes: "Open on the human problem. Three facts, no jargon. We are not here to sell a token; we are here to add housing supply and let ordinary people take part. Each figure is the latest official one, with its period: Census 2022 is still the latest census count (CSO metered-electricity data counts 70,149 long-term vacant in Q4 2024, a narrower measure); RTB Q1 2026 is the latest rent index; CSO RPPI August 2026. Do not call rents a record: the RTB report does not.",
+    notes: "Open on the human problem. Three facts, no jargon. We are not here to sell a token; we are here to add housing supply and let ordinary people take part. Each figure is the latest available, with its period: GeoDirectory Q2 2026 (an industry source prepared with EY; there is no 2026 census, the next is in 2027); RTB Q1 2026 is the latest rent index; CSO RPPI August 2026. Do not call rents a record: the RTB report does not.",
   },
   {
     id: "mission",

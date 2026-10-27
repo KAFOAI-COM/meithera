@@ -13,6 +13,7 @@ Where no 2026 figure exists, the latest available figure is used and its period 
 Shown on presentation slide 1 (`src/components/presentation/slides.tsx`) and in `docs/pitch-deck-content.md`.
 
 ### Vacant dwellings
+- **Slide shown from 27 Oct 2026 (later the same day):** GeoDirectory Q2 2026, **81,373 vacant + 19,137 derelict**, replacing the Census 2022 figure at the owner's request so no 2022 figure appears. GeoDirectory is third-party (prepared with EY); there is no official 2026 count.
 - **Old:** "~166,000 vacant dwellings counted in Census 2022 (CSO)".
 - **New:** **163,433**, from the Census 2022 final results (Profile 2).
 - **Period:** census night, April 2022. Published 27 Jul 2023. Census 2022 is still the latest census; the next is in 2027. There is no 2026 census count.

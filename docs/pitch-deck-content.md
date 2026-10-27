@@ -3,7 +3,7 @@
 The live deck is `/presentation` (`src/components/presentation/slides.tsx`); this is the same content for a PDF or printed hand-out. Every slide carries a stage badge; nothing claims authorisation.
 
 ## 1 · The problem — Stage 0
-Irish people can’t buy, rents punish, and homes sit empty. 163,433 vacant dwellings (Census 2022 final results, CSO — still the latest census). New-tenancy rents up 9.1% in a year to €1,839 a month (RTB Rent Index, Q1 2026). National median home price €400,000, up 5.1% (CSO RPPI, 12 months to Aug 2026). Property wealth is built by those who can already buy. Sources and periods: `docs/investor/STATISTICS_UPDATE_2026.md`.
+Irish people can’t buy, rents punish, and homes sit empty. 81,373 vacant homes plus 19,137 derelict (GeoDirectory Residential Buildings Report, Q2 2026). New-tenancy rents up 9.1% in a year to €1,839 a month (RTB Rent Index, Q1 2026). National median home price €400,000, up 5.1% (CSO RPPI, 12 months to Aug 2026). Property wealth is built by those who can already buy. Sources and periods: `docs/investor/STATISTICS_UPDATE_2026.md`.
 
 ## 2 · The mission — Stage 0
 Meithera lets ordinary people fund the refurbishment of vacant homes from €100, through an EU crowdfunding licence (ECSPR), with every euro, holder and payout recorded on Raya Chain and visible to the supervisor. Over time, tenants can buy into the home they live in. Raya Software Limited, incorporated in Ireland (CRO). Not authorised or regulated by the Central Bank of Ireland.
